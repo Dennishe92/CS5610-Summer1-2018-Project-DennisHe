@@ -1,1 +1,1 @@
-# CS5610-Summer1-2018-Project-DennisHe
+# This repository is for our project for WebDev5610
