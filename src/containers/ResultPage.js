@@ -24,16 +24,17 @@ class ResultPage extends React.Component {
         this.setState({recipes: recipes})
     }
 
-    // componentDidMount() {
-    //     this.setSearch(this.props.search)
-    //     this.setRecipes(this.props.recipes)
-    // }
-
-    componentWillReceiveProps(newProps) {
-        this.setSearch(newProps.match.params.search)
-        this.findRecipe(newProps.match.params.search)
-        //this.setRecipes(newProps.recipes)
+    componentDidMount() {
+        //this.setSearch(this.props.match.params.search);
+        this.findRecipe(this.props.match.params.search);
+        //console.log(this.state.search)
     }
+
+    // componentWillReceiveProps(newProps) {
+    //     this.setSearch(newProps.match.params.search)
+    //     this.findRecipe(newProps.match.params.search)
+    //     //this.setRecipes(newProps.recipes)
+    // }
 
     findRecipe(recipeName) {
         this.customerService.findRecipe(recipeName)
@@ -59,11 +60,35 @@ class ResultPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <ul className="list-group">
-                    <br></br>
-                    {this.renderListOfRecipes()}
-                </ul>
+
+            <div className="container-fluid">
+
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
+
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
+                            </li>
+
+                            <li className="nav-item active">
+                                <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </nav>
+
+
+                <div>
+                    <ul className="list-group">
+                        <br></br>
+                        {this.renderListOfRecipes()}
+                    </ul>
+                </div>
+
             </div>
         )
     }
