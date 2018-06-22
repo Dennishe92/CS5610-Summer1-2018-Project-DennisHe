@@ -3,7 +3,24 @@ import React from 'react'
 class RegisterPage extends React.Component {
     render() {
         return (
-            <div>
+            <div className="container-fluid">
+
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
+
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
+                            </li>
+
+                            <li className="nav-item active">
+                                <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
                 <h1>Register</h1>
 
                 <form>
