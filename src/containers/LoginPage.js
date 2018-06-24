@@ -5,15 +5,32 @@ class LoginPage extends React.Component {
         return (
             <div className="container-fluid">
 
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
+                    <button type="button"
+                            className="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
                     <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav mr-auto">
+                        <ul className="nav navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <a className="nav-link" href="http://localhost:3000/search">Search<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#">My Profile<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#">Groceries<span className="sr-only">(current)</span></a>
+                            </li>
+                        </ul>
+
+                        <ul className="nav navbar-nav">
                             <li className="nav-item active">
                                 <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
                             </li>
-
                             <li className="nav-item active">
                                 <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
                             </li>
@@ -47,15 +64,16 @@ class LoginPage extends React.Component {
                         <label className="col-sm-2 col-form-label"></label>
                         <div className="col-sm-10">
                             <button id="loginBtn" type="button" className="btn btn-primary btn-block">Sign in</button>
+
                             <br></br>
                                 <div className="row">
                                     <div className="col-6">
-                                        <a href="#">Forgot Password?</a>
+                                        <a href="#">Forgot Password</a>
                                     </div>
-                                    <div className="col-6">
-                                        <a href="#" className="float-right">Register
-                                            Here</a>
-                                    </div>
+                                    {/*<div className="col-6">*/}
+                                        {/*<a href="#" className="float-right">Register*/}
+                                            {/*Here</a>*/}
+                                    {/*</div>*/}
                                 </div>
                         </div>
                     </div>

@@ -1,6 +1,63 @@
-import React from 'react'
+import React from'react'
+import CustomerService from "../services/CustomerService";
 
-class HomePage extends React.Component {
+class RecipeDetailPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            search: '',
+            recipeId: '',
+            recipe: {}
+        }
+
+        this.setSearch = this.setSearch.bind(this);
+        this.setRecipeId = this.setRecipeId.bind(this);
+        this.setRecipe = this.setRecipe.bind(this);
+
+        this.customerService = CustomerService.instance;
+    }
+
+    setSearch(search) {
+        this.setState({search: search})
+    }
+
+    setRecipeId(recipeId) {
+        this.setState({recipeId: recipeId})
+    }
+
+    setRecipe(recipe) {
+        this.setState({recipe: recipe});
+    }
+
+    componentDidMount() {
+        this.setSearch(this.props.match.params.search);
+        this.setRecipeId(this.props.match.params.recipeId);
+        this.findRecipeById(this.props.match.params.recipeId);
+    }
+
+    componentWillReceiveProps(newProps){
+        this.setRecipeId(newProps.match.params.recipeId);
+        this.findRecipeById(newProps.match.params.recipeId);
+    }
+
+    findRecipeById(recipeId) {
+        this.customerService.findRecipeById(recipeId)
+            .then((recipe) => {
+                this.setRecipe(recipe)
+            });
+    }
+
+    renderIngredients() {
+        let ingredients = this.state.recipe.ingredientLines;
+        console.log(ingredients);
+        console.log(this.state.recipe.ingredientLines);
+        // ingredients.map((ingredient) => {
+        //         return (<li>{ingredient}</li>)
+        //
+        //     }
+        // );
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -38,20 +95,18 @@ class HomePage extends React.Component {
                     </div>
                 </nav>
 
-                <br/>
+                <h1>{this.state.recipe.name}</h1>
+                <h4><strong>Cook Time:</strong> {this.state.recipe.cookTime}</h4>
 
-                <div className="jumbotron container-fluid">
-                    <h1 className="display-4">Welcome to CookMi :)</h1>
-                    <p className="lead">We are the leading platform to discover different food recipes to expand your
-                        palate. Here on CookMi, we can make your cooking from impossible to possible.</p>
-                    <hr className="my-4"></hr>
-                    <p>We utilize the Yummly API to provide you with vast amount of food recipes just at your finger
-                        tips.</p>
-                    <a className="btn btn-primary btn-lg" href="http://localhost:3000/search" role="button">Start Searching</a>
-                </div>
+                <button className="btn btn-danger">Like</button>
 
+                {/*<ul>*/}
+                    {/*{this.renderIngredients()}*/}
+                {/*</ul>*/}
+
+                {/*<img src={this.state.recipe.images[2]}></img>*/}
             </div>
         )
     }
 }
-export default HomePage
+export default RecipeDetailPage;

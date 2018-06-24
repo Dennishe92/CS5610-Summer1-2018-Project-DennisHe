@@ -1,7 +1,9 @@
 import React from 'react'
 
 const YUMMLY_URL = 'http://api.yummly.com/v1/api/recipes?_app_id=a0d23074' +
-    '&_app_key=f12a9990ff4909c04c80d5ed84a0e6b6&q=searchInput&requirePictures=true'
+    '&_app_key=f12a9990ff4909c04c80d5ed84a0e6b6&q=searchInput&requirePictures=true';
+const YUMMLY_URL_FIND_BY_ID = 'http://api.yummly.com/v1/api/recipe/RID?_app_id=a0d23074' +
+    '&_app_key=f12a9990ff4909c04c80d5ed84a0e6b6';
 
 let _singleton = Symbol();
 class CustomerService {
@@ -17,14 +19,22 @@ class CustomerService {
     }
 
     findRecipe(recipeName) {
-        // console.log(recipeName);
-
         return fetch (YUMMLY_URL.replace('searchInput', encodeURIComponent(recipeName)))
             .then(function(response) {
-               return response.json();})
+                return response.json();})
             .then(function(data){
-                return data.matches.slice(0,10)
+                return data.matches.slice(0,12)
             });
+    }
+
+    findRecipeById(recipeId) {
+        return fetch (YUMMLY_URL_FIND_BY_ID.replace('RID', recipeId))
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+            return data;
+        })
     }
 
 

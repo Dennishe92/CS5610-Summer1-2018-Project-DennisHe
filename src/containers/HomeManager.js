@@ -6,7 +6,7 @@ import SearchPage from "./SearchPage";
 import ResultPage from "./ResultPage";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
-
+import RecipeDetailPage from "./RecipeDetailPage";
 
 
 class HomeManager extends React.Component {
@@ -25,6 +25,10 @@ class HomeManager extends React.Component {
 
                     <Route path="/results/:search"
                            component={ResultPage}>
+                    </Route>
+
+                    <Route path="/results/recipe/:recipeId"
+                           component={RecipeDetailPage}>
                     </Route>
 
                     <Route path="/login"
