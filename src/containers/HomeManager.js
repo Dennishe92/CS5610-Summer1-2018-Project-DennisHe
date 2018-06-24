@@ -6,8 +6,9 @@ import SearchPage from "./SearchPage";
 import ResultPage from "./ResultPage";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
-
-
+import CustomerProfile from "./CustomerProfile"
+import SellerProfile from "./SellerProfile"
+import DeliveryProfile from "./DeliveryProfile"
 
 class HomeManager extends React.Component {
     render() {
@@ -33,6 +34,17 @@ class HomeManager extends React.Component {
 
                     <Route path="/register"
                            component={RegisterPage}>
+                    </Route>
+
+                    <Route path="/customer"
+                           component={CustomerProfile}>
+                    </Route>
+
+                    <Route path="/seller"
+                           component={SellerProfile}>
+                    </Route>
+                    <Route path="/delivery"
+                           component={DeliveryProfile}>
                     </Route>
                 </div>
             </Router>
