@@ -48,14 +48,13 @@ class RecipeDetailPage extends React.Component {
     }
 
     renderIngredients() {
-        let ingredients = this.state.recipe.ingredientLines;
-        console.log(ingredients);
-        console.log(this.state.recipe.ingredientLines);
-        // ingredients.map((ingredient) => {
-        //         return (<li>{ingredient}</li>)
-        //
-        //     }
-        // );
+        let ingredients = null;
+        if (this.state) {
+            ingredients = this.state.recipe.ingredientLines.map((ingredient) => {
+                return<li>{ingredient}</li>
+            })
+        }
+        return (ingredients);
     }
 
     render() {
@@ -98,11 +97,14 @@ class RecipeDetailPage extends React.Component {
                 <h1>{this.state.recipe.name}</h1>
                 <h4><strong>Cook Time:</strong> {this.state.recipe.cookTime}</h4>
 
-                <button className="btn btn-danger">Like</button>
 
-                {/*<ul>*/}
-                    {/*{this.renderIngredients()}*/}
-                {/*</ul>*/}
+
+                <button className="btn btn-success">Like</button>
+                <button className="btn btn-danger">Unlike</button>
+
+                <ul>
+                    {this.renderIngredients()}
+                </ul>
 
                 {/*<img src={this.state.recipe.images[2]}></img>*/}
             </div>

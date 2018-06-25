@@ -17,7 +17,7 @@ class Recipe extends React.Component {
                         <p className="card-text"></p>
                     </div>
                         <ul className="list-group list-group-flush">
-                            <li className="list-group-item"><strong>Created by:</strong> {this.props.recipe.sourceDisplayName}</li>
+                            <li className="list-group-item"><strong>Source:</strong> {this.props.recipe.sourceDisplayName}</li>
                             <li className="list-group-item"><strong>Average rating:</strong> {this.props.recipe.rating}</li>
                         </ul>
                     <div className="card-body">

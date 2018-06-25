@@ -14,7 +14,7 @@ class LikeService {
         return this[_singleton]
     }
 
-    
+
 
 
 

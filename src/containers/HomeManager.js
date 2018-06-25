@@ -7,6 +7,9 @@ import ResultPage from "./ResultPage";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import RecipeDetailPage from "./RecipeDetailPage";
+import CustomerProfile from "./CustomerProfile"
+import DeliveryProfile from "./DeliveryProfile"
+import SellerProfile from "./SellerProfile"
 
 
 class HomeManager extends React.Component {
@@ -37,6 +40,17 @@ class HomeManager extends React.Component {
 
                     <Route path="/register"
                            component={RegisterPage}>
+                    </Route>
+
+                    <Route path="/customer"
+                           component={CustomerProfile}>
+                    </Route>
+
+                    <Route path="/seller"
+                           component={SellerProfile}>
+                    </Route>
+                    <Route path="/delivery"
+                           component={DeliveryProfile}>
                     </Route>
                 </div>
             </Router>
