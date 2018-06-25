@@ -100,7 +100,6 @@ class CustomerProfile extends React.Component {
                 (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe}/>}
             )
         }
-
         return (recipes);
     }
 

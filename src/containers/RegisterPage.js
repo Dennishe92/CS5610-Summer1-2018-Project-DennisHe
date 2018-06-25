@@ -17,17 +17,11 @@ class RegisterPage extends React.Component {
         this.usernameChanged = this.usernameChanged.bind(this);
         this.passwordChanged = this.passwordChanged.bind(this);
         this.verifyPasswordChanged = this.verifyPasswordChanged.bind(this);
+        this.createUser = this.createUser.bind(this);
 
         this.userService = UserService.instance;
 
     }
-
-    // componentDidMount() {
-    //     this.setState({userType: "default"})
-    //     this.setState({username: "newUsername"})
-    //     this.setState({password: "pass"})
-    //     this.setState({verifyPassword: "pssss"})
-    // }
 
     userTypeChanged(event) {
         this.setState({userType: event.target.value})
@@ -45,22 +39,17 @@ class RegisterPage extends React.Component {
         this.setState({verifyPassword: event.target.value})
     }
 
-    // createUser() {
-    //     console.log(this.state.username);
-    //     console.log(this.state.password);
-    //     console.log(this.state.verifyPassword);
-    //     console.log(this.state.userType);
-    //
-    //     if (this.state.password !== this.state.verifyPassword) {
-    //         alert("Please make sure password matches")
-    //     } else {
-    //         const user = {
-    //             username: this.state.username,
-    //             password: this.state.password
-    //         }
-    //         this.userService.createUser(this.state.userType, user);
-    //     }
-    // }
+    createUser() {
+        if (this.state.password !== this.state.verifyPassword) {
+            alert("Please make sure password matches")
+        } else {
+            const user = {
+                username: this.state.username,
+                password: this.state.password
+            }
+            this.userService.createUser(this.state.userType, user);
+        }
+    }
 
     render() {
         return (
