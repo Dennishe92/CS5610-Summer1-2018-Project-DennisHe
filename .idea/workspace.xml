@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28c38f21-6a41-470a-bb2b-432a22917532" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/OrderItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ProductItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/RecipeItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/CustomerProfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/DeliveryProfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/SellerProfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/UserService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/HomeManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/HomeManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/CustomerProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CustomerProfile.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -78,11 +70,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomerProfile.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CustomerProfile.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/containers/CustomerProfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2569">
-              <caret selection-end-line="210" selection-end-column="30" />
+            <state relative-caret-position="417">
+              <caret line="117" column="5" lean-forward="true" selection-start-line="117" selection-start-column="5" selection-end-line="117" selection-end-column="5" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -93,7 +85,7 @@
       <file leaf-file-name="SellerProfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/SellerProfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
+            <state relative-caret-position="289">
               <caret line="135" column="29" lean-forward="true" selection-start-line="135" selection-start-column="29" selection-end-line="135" selection-end-column="29" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
@@ -102,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeliveryProfile.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DeliveryProfile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/DeliveryProfile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2085">
-              <caret line="139" column="22" lean-forward="true" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
+            <state relative-caret-position="349">
+              <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -175,7 +167,6 @@
         <option value="$PROJECT_DIR$/src/services/RecipeService.js" />
         <option value="$PROJECT_DIR$/src/components/RecipeIterm.js" />
         <option value="$PROJECT_DIR$/src/components/RecipeItem.js" />
-        <option value="$PROJECT_DIR$/src/containers/CustomerProfile.js" />
         <option value="$PROJECT_DIR$/src/components/OrderItem.js" />
         <option value="$PROJECT_DIR$/src/services/CustomerService.js" />
         <option value="$PROJECT_DIR$/src/components/ProductItem.ts" />
@@ -184,6 +175,7 @@
         <option value="$PROJECT_DIR$/src/services/UserService.js" />
         <option value="$PROJECT_DIR$/src/containers/HomeManager.js" />
         <option value="$PROJECT_DIR$/src/containers/DeliveryProfile.js" />
+        <option value="$PROJECT_DIR$/src/containers/CustomerProfile.js" />
       </list>
     </option>
   </component>
@@ -204,8 +196,8 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="248" />
-    <option name="y" value="264" />
+    <option name="x" value="196" />
+    <option name="y" value="23" />
     <option name="width" value="1192" />
     <option name="height" value="877" />
   </component>
@@ -241,18 +233,6 @@
               <item name="CS5610-Summer1-2018-Project-DennisHe" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CS5610-Summer1-2018-Project-DennisHe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CS5610-Summer1-2018-Project-DennisHe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CS5610-Summer1-2018-Project-DennisHe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CS5610-Summer1-2018-Project-DennisHe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="styles" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -296,10 +276,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96910000" />
+    <option name="totallyTimeSpent" value="98577000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="248" y="264" width="1192" height="877" extended-state="0" />
+    <frame x="196" y="23" width="1192" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -532,47 +513,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Recipe.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/CustomerService.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/RecipeItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="18" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/SellerProfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="135" column="29" lean-forward="true" selection-start-line="135" selection-start-column="29" selection-end-line="135" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/CustomerProfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2569">
-          <caret selection-end-line="210" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/UserService.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-964">
@@ -587,10 +527,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ProductItem.js">
+    <entry file="file://$PROJECT_DIR$/src/services/CustomerService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="50" />
+        <state relative-caret-position="300">
+          <caret line="20" lean-forward="true" selection-start-line="19" selection-start-column="7" selection-end-line="20" />
         </state>
       </provider>
     </entry>
@@ -601,10 +541,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RecipeItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="18" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/SellerProfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="135" column="29" lean-forward="true" selection-start-line="135" selection-start-column="29" selection-end-line="135" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ProductItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Recipe.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/containers/DeliveryProfile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2085">
-          <caret line="139" column="22" lean-forward="true" selection-start-line="139" selection-start-column="22" selection-end-line="139" selection-end-column="22" />
+        <state relative-caret-position="349">
+          <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/CustomerProfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="117" column="5" lean-forward="true" selection-start-line="117" selection-start-column="5" selection-end-line="117" selection-end-column="5" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>

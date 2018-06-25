@@ -95,7 +95,7 @@ class CustomerProfile extends React.Component {
         let recipes = null;
 
         if (this.state) {
-            console.log(this.state.recipes.length);
+            // console.log(this.state.recipes.length);
             recipes = this.state.recipes.map(
                 (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe}/>}
             )
