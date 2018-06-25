@@ -145,7 +145,7 @@ class RecipeDetailPage extends React.Component {
                 {/*<h4><strong>Cook Time:</strong> {this.state.recipe.cookTime}</h4>*/}
 
                 <br/>
-                
+
                 <ul>
                     {this.renderIngredients()}
                 </ul>

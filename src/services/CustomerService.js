@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LIKE_API_URL = 'http://localhost:8080/api/customer/recipe';
+const LIKE_API_URL = 'http://localhost:8080/api/customer/like/recipe';
 
 let _singleton = Symbol();
 class CustomerService {
