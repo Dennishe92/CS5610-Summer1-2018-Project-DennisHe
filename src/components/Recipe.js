@@ -1,12 +1,18 @@
 import React from 'react'
 
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router';
 
 class Recipe extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    goToDetailPage() {
+        this.props.history.push('')
+    }
+
+    //<Link to={`/results/recipe/${this.props.recipe.id}`}>
     // this.props.recipe.imageUrlsBySize["90"]
     render() {
         return (
@@ -21,7 +27,7 @@ class Recipe extends React.Component {
                             <li className="list-group-item"><strong>Average rating:</strong> {this.props.recipe.rating}</li>
                         </ul>
                     <div className="card-body">
-                        <Link to={`/results/recipe/${this.props.recipe.id}`}>
+                        <Link to={`/details/${this.props.recipe.id}`}>
                             <button className="btn btn-warning">More Info</button>
                         </Link>
                     </div>

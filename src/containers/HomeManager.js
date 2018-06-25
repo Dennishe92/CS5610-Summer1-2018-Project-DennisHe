@@ -30,7 +30,7 @@ class HomeManager extends React.Component {
                            component={ResultPage}>
                     </Route>
 
-                    <Route path="/results/recipe/:recipeId"
+                    <Route path="/details/:recipeId"
                            component={RecipeDetailPage}>
                     </Route>
 

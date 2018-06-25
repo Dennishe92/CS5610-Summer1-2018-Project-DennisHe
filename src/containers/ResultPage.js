@@ -2,7 +2,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 
 
-import CustomerService from '../services/CustomerService'
+import YummlyService from '../services/YummlyService'
 import Recipe from '../components/Recipe'
 import RecipeDetailPage from "./RecipeDetailPage";
 
@@ -17,7 +17,7 @@ class ResultPage extends React.Component {
         this.setRecipes = this.setRecipes.bind(this);
         this.setSearch = this.setSearch.bind(this);
 
-        this.customerService = CustomerService.instance;
+        this.customerService = YummlyService.instance;
     }
 
     setSearch(search) {

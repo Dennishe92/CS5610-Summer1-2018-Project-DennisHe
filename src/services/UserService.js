@@ -1,4 +1,6 @@
 const USER_API_URL = 'http://localhost:8080/api/user';
+const USER_API_LOGIN = 'http://localhost:8080/api/login';
+const USER_API_LOGOUT = 'http://localhost:8080/api/logout';
 const PROFILE_API_URL = 'http://localhost:8080/api/profile';
 const CUSTOMER_API_URL = 'http://localhost:8080/api/customer';
 const SELLER_API_URL = 'http://localhost:8080/api/seller';
@@ -17,16 +19,31 @@ class UserService {
         return this[_singleton]
     }
 
-    findAllUser() {
-
-    }
-
     deleteUser(customerId) {
 
     }
 
-    createUser(customer) {
+    login(user) {
+        return fetch(USER_API_LOGIN, {
+            method: 'post',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function(response) {
+                if (response.status === 409 || response.status === 500) {
+                    return null;
+                } else {
+                    return response.json();
+                }
+            })
+    }
 
+    logout() {
+        return fetch(USER_API_LOGOUT, {
+            method: 'post',
+            credentials: 'include'
+        });
     }
 
     populateProfile() {
@@ -39,18 +56,6 @@ class UserService {
                 }
             });
     }
-
-    // updateUser(username, user) {
-    //     return fetch(USER_API_URL + '/' + username, {
-    //         body: JSON.stringify(user),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         method: 'PUT'
-    //     }).then(function (response) {
-    //         return response.json();
-    //     })
-    // }
 
     updateUser(userId, user) {
         return fetch(USER_API_URL + '/' + userId, {
@@ -72,7 +77,11 @@ class UserService {
             },
             method: 'POST'
         }).then(function(response) {
-            return response.json();
+            if (response. status === 409 || response.status === 500) {
+                return null
+            } else {
+                return response.json();
+            }
         })
     }
 

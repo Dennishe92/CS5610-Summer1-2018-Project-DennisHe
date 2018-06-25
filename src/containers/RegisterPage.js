@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import UserService from '../services/UserService'
 
@@ -47,7 +48,14 @@ class RegisterPage extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             }
-            this.userService.createUser(this.state.userType, user);
+            this.userService.createUser(this.state.userType, user)
+                .then((response) => {
+                    if (response === null) {
+                        alert("Username already exist. please choose another one.")
+                    } else {
+                        alert("account created successfully! Please go to login page to login.")
+                    }
+                })
         }
     }
 

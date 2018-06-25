@@ -1,5 +1,8 @@
 import React from'react'
+
+import YummlyService from "../services/YummlyService";
 import CustomerService from "../services/CustomerService";
+
 
 class RecipeDetailPage extends React.Component {
     constructor(props) {
@@ -8,13 +11,17 @@ class RecipeDetailPage extends React.Component {
             search: '',
             recipeId: '',
             recipe: {},
-            ingredients: []
+            ingredients: [],
+            image: {}
         }
 
         this.setSearch = this.setSearch.bind(this);
         this.setRecipeId = this.setRecipeId.bind(this);
         this.setRecipe = this.setRecipe.bind(this);
+        this.setIngredients = this.setIngredients.bind(this);
+        this.setImage = this.setImage.bind(this);
 
+        this.yummlyService = YummlyService.instance;
         this.customerService = CustomerService.instance;
     }
 
@@ -34,6 +41,10 @@ class RecipeDetailPage extends React.Component {
         this.setState({ingredients: ingredients});
     }
 
+    setImage(image) {
+        this.setState({image: image})
+    }
+
     componentDidMount() {
         this.setSearch(this.props.match.params.search);
         this.setRecipeId(this.props.match.params.recipeId);
@@ -46,14 +57,28 @@ class RecipeDetailPage extends React.Component {
     }
 
     findRecipeById(recipeId) {
-        this.customerService.findRecipeById(recipeId)
+        this.yummlyService.findRecipeById(recipeId)
             .then((recipe) => {
                 this.setRecipe(recipe);
                 this.setIngredients(recipe.ingredientLines);
+                this.setImage(recipe.images[0].hostedLargeUrl);
             });
     }
 
+    // renderImage() {
+    //     let images = null;
+    //     if(this.state) {
+    //         images = this.state.images.map((image) => {
+    //             if (image === "hostedMediumURL") {
+    //                 return <img src={image}></img>
+    //             }
+    //         })
+    //     }
+    //     return (images);
+    // }
+
     renderIngredients() {
+        console.log(this.state.image);
         let ingredients = null;
         if (this.state) {
             ingredients = this.state.ingredients.map((ingredient) => {
@@ -61,6 +86,11 @@ class RecipeDetailPage extends React.Component {
             })
         }
         return (ingredients);
+    }
+
+    likeRecipe(recipeId) {
+        console.log(recipeId);
+        this.customerService.likeRecipe(recipeId);
     }
 
     render() {
@@ -100,19 +130,26 @@ class RecipeDetailPage extends React.Component {
                     </div>
                 </nav>
 
-                <h1>{this.state.recipe.name}</h1>
-                <h4><strong>Cook Time:</strong> {this.state.recipe.cookTime}</h4>
+                <span className="form-inline">
+                    <h1 className="mr-auto">{this.state.recipe.name}</h1>
+                </span>
 
+                <span className="form-inline">
+                <img className="mr-5" src={this.state.image}></img>
+                <button className="btn btn-success"
+                        onClick={() => this.likeRecipe(this.state.recipe.id)}>
+                    Like
+                </button>
+            </span>
 
+                {/*<h4><strong>Cook Time:</strong> {this.state.recipe.cookTime}</h4>*/}
 
-                <button className="btn btn-success">Like</button>
-                <button className="btn btn-danger">Unlike</button>
-
+                <br/>
+                
                 <ul>
                     {this.renderIngredients()}
                 </ul>
 
-                {/*<img src={this.state.recipe.images[2]}></img>*/}
             </div>
         )
     }

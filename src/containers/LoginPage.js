@@ -1,6 +1,56 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
+import UserService from "../services/UserService";
 
 class LoginPage extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            username: '',
+            password: ''
+        }
+
+        this.usernameChanged = this.usernameChanged.bind(this);
+        this.passwordChanged = this.passwordChanged.bind(this);
+
+        this.userService = UserService.instance;
+    }
+
+    usernameChanged(event) {
+        this.setState({username: event.target.value})
+    }
+
+    passwordChanged(event) {
+        this.setState({password: event.target.value})
+    }
+
+    login() {
+        const user = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        this.userService.login(user)
+            .then((response) => {
+                if (response === null) {
+                    alert('invalid login credentials')
+                } else {
+                    if (response.dtype === 'Customer') {
+                        <Link to={`/customer`}></Link>
+                    } else if (response.dtype === 'Seller') {
+                        <Link to={`/seller`}></Link>
+                    }
+                    else {
+                        <Link to={`/delivery`}></Link>
+                    }
+                }
+            })
+
+
+    }
+
+
     render() {
         return (
             <div className="container-fluid">
@@ -47,7 +97,10 @@ class LoginPage extends React.Component {
                         <label htmlFor="usernameFld" className="col-sm-2 col-form-label">
                             Username </label>
                         <div className="col-sm-10">
-                            <input className="form-control" id="usernameFld" placeholder=""></input>
+                            <input className="form-control"
+                                   id="usernameFld"
+                                   placeholder="Username"
+                                   onChange = {this.usernameChanged}></input>
                         </div>
                     </div>
 
@@ -55,8 +108,11 @@ class LoginPage extends React.Component {
                         <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                             Password </label>
                         <div className="col-sm-10">
-                            <input type="password" className="form-control wbdv-password-fld"
-                                   id="passwordFld" placeholder=""></input>
+                            <input className="form-control passwordFld"
+                                   type="password"
+                                   id="passwordFld"
+                                   placeholder="Password"
+                                   onChange = {this.passwordChanged}></input>
                         </div>
                     </div>
 
