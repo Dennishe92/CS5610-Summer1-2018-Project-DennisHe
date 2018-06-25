@@ -7,7 +7,8 @@ class RecipeDetailPage extends React.Component {
         this.state = {
             search: '',
             recipeId: '',
-            recipe: {}
+            recipe: {},
+            ingredients: []
         }
 
         this.setSearch = this.setSearch.bind(this);
@@ -29,6 +30,10 @@ class RecipeDetailPage extends React.Component {
         this.setState({recipe: recipe});
     }
 
+    setIngredients(ingredients) {
+        this.setState({ingredients: ingredients});
+    }
+
     componentDidMount() {
         this.setSearch(this.props.match.params.search);
         this.setRecipeId(this.props.match.params.recipeId);
@@ -43,14 +48,15 @@ class RecipeDetailPage extends React.Component {
     findRecipeById(recipeId) {
         this.customerService.findRecipeById(recipeId)
             .then((recipe) => {
-                this.setRecipe(recipe)
+                this.setRecipe(recipe);
+                this.setIngredients(recipe.ingredientLines);
             });
     }
 
     renderIngredients() {
         let ingredients = null;
         if (this.state) {
-            ingredients = this.state.recipe.ingredientLines.map((ingredient) => {
+            ingredients = this.state.ingredients.map((ingredient) => {
                 return<li>{ingredient}</li>
             })
         }
