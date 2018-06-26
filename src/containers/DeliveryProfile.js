@@ -27,26 +27,35 @@ class DeliveryProfile extends React.Component {
 
     componentDidMount() {
         this.findUser();
-        this.findAllOrders();
     }
 
     findUser() {
-        this.deliveryProfileService.findUserByUsername('batman')
+        this.deliveryProfileService.populateProfile()
             .then((user) => {
-                this.setState({delivery: user});
-            });
-    }
-
-    findAllOrders() {
-        this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
-            .then((orders) => {
-                this.setState({orders: orders});
+                this.setState({userId: user.id});
+                this.setState({delivery: {username: user.username}});
+                this.setState({delivery: {email: user.email}});
+                this.setState({delivery: {phone: user.phone}});
+                this.setState({delivery: {address: user.address}});
+            })
+            .then(() => {
+                this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
+                    .then((orders) => {
+                        this.setState({orders: orders});
+                    })
             })
     }
 
+    // findAllOrders() {
+    //     this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
+    //         .then((orders) => {
+    //             this.setState({orders: orders});
+    //         })
+    // }
+
     updateDelivery() {
         this.deliveryProfileService.updateUser(this.state.userId, this.state.delivery)
-            .then((user) => {this.findUser(user.username);});
+            .then(this.findUser);
     }
 
     usernameChanged(event) {
@@ -55,15 +64,15 @@ class DeliveryProfile extends React.Component {
     }
 
     emailChanged(event) {
-        this.setState({customer: {email: event.target.value}});
+        this.setState({delivery: {email: event.target.value}});
     }
 
     phoneChanged(event) {
-        this.setState({customer: {phone: event.target.value}});
+        this.setState({delvery: {phone: event.target.value}});
     }
 
     addressChanged(event) {
-        this.setState({customer: {address: event.target.value}});
+        this.setState({delivery: {address: event.target.value}});
     }
 
     renderOrderList() {

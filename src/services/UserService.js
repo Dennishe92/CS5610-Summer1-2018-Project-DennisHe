@@ -91,8 +91,8 @@ class UserService {
         })
     }
 
-    findUserByUsername(username) {
-        return fetch(USER_API_URL + '/' + username, {
+    findUserById(userId) {
+        return fetch(USER_API_URL + '/' + userId, {
             credentials: 'same-origin'
         })
             .then(function (response) {
@@ -117,9 +117,9 @@ class UserService {
         })
     }
 
-    findOrdersByCustomer(username) {
+    findOrdersByCustomer(userId) {
         return fetch(
-            CUSTOMER_API_URL + '/' + username + '/order'
+            CUSTOMER_API_URL + '/' + userId + '/order'
         ).then(function (response) {
             return response.json();
         })

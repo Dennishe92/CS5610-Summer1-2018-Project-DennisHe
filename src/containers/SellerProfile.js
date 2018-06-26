@@ -27,27 +27,36 @@ class SellerProfile extends React.Component {
 
     componentDidMount() {
         this.findUser();
-        this.findAllProducts();
     }
 
     findUser() {
-        this.sellerProfileService.findUserByUsername('idiots')
+        this.sellerProfileService.populateProfile()
             .then((user) => {
-                this.setState({seller: user});
-            });
+                this.setState({userId: user.id});
+                this.setState({seller: {username: user.username}});
+                this.setState({seller: {email: user.email}});
+                this.setState({seller: {phone: user.phone}});
+                this.setState({seller: {address: user.address}});
+            })
+            .then(() => {
+                this.sellerProfileService.findProductsBySeller(this.state.userId)
+                    .then((products) => {
+                        this.setState({products: products});
+                    })
+            })
     }
 
-    findAllProducts() {
-        this.sellerProfileService.findProductsBySeller(this.state.userId)
-            .then((recipes) => {
-                    this.setState({products: recipes});
-                }
-            )
-    }
+    // findAllProducts() {
+    //     this.sellerProfileService.findProductsBySeller(this.state.userId)
+    //         .then((products) => {
+    //                 this.setState({products: products});
+    //             }
+    //         )
+    // }
 
     updateSeller() {
         this.sellerProfileService.updateUser(this.state.userId, this.state.seller)
-            .then((user) => {this.findUser(user.username);});
+            .then(this.findUser);
     }
 
     usernameChanged(event) {
@@ -56,15 +65,15 @@ class SellerProfile extends React.Component {
     }
 
     emailChanged(event) {
-        this.setState({customer: {email: event.target.value}});
+        this.setState({seller: {email: event.target.value}});
     }
 
     phoneChanged(event) {
-        this.setState({customer: {phone: event.target.value}});
+        this.setState({seller: {phone: event.target.value}});
     }
 
     addressChanged(event) {
-        this.setState({customer: {address: event.target.value}});
+        this.setState({seller: {address: event.target.value}});
     }
 
     renderProductList() {

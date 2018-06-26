@@ -36,34 +36,44 @@ class CustomerProfile extends React.Component {
     findUser() {
         this.customerProfileService.populateProfile()
             .then((user) => {
+                this.setState({userId: user.id});
                 this.setState({customer: {username: user.username}});
-            }).then(() => {
-            this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
-                .then((orders) => {
-                    this.setState({orders: orders});
-                })
-        })
-    }
-
-    findAllRecipes() {
-        this.customerProfileService.findRecipesByCustomer()
-            .then((recipes) => {
-                    this.setState({recipes: recipes});
-                }
-            )
-    }
-
-    findAllOrders() {
-        this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
-            .then((orders) => {
-                this.setState({orders: orders});
+                this.setState({customer: {email: user.email}});
+                this.setState({customer: {phone: user.phone}});
+                this.setState({customer: {address: user.address}});
+            })
+            .then(() => {
+                this.customerProfileService.findOrdersByCustomer(this.state.userId)
+                    .then((orders) => {
+                        this.setState({orders: orders});
+                    })
+            })
+            .then(() => {
+                this.customerProfileService.findRecipesByCustomer(this.state.userId)
+                    .then((recipes) => {
+                        this.setState({recipes: recipes})
+                    })
             })
     }
 
+    // findAllRecipes() {
+    //     this.customerProfileService.findRecipesByCustomer()
+    //         .then((recipes) => {
+    //                 this.setState({recipes: recipes});
+    //             }
+    //         )
+    // }
+
+    // findAllOrders() {
+    //     this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
+    //         .then((orders) => {
+    //             this.setState({orders: orders});
+    //         })
+    // }
+
     updateCustomer() {
-        this.customerProfileService.updateUser(this.state.customer)
-            .then((user) => {this.findUser(user.username);
-            });
+        this.customerProfileService.updateUser(this.state.userId, this.state.customer)
+            .then(this.findUser);
     }
 
     usernameChanged(event) {
@@ -85,7 +95,6 @@ class CustomerProfile extends React.Component {
     renderRecipeList() {
         let recipes = null;
         if (this.state) {
-            console.log(this.state.recipes.length);
             recipes = this.state.recipes.map(
                 (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe}/>}
             )
@@ -96,7 +105,6 @@ class CustomerProfile extends React.Component {
     renderOrderList() {
         let orders = null;
         if (this.state) {
-            console.log(this.state.orders.length);
             orders = this.state.orders.map(
                 (order) => {return <OrderItem key={order.id} order={order}/>}
             )
@@ -185,7 +193,7 @@ class CustomerProfile extends React.Component {
                         Address </label>
                     <div className="col-sm-10">
                         <input onChange={this.addressChanged}
-                            className="form-control wbdv-password-fld"
+                               className="form-control wbdv-password-fld"
                                id="addressFld"
                                value={this.state.customer.address}
                                placeholder="Address"/>
