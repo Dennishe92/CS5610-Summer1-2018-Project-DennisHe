@@ -1,6 +1,26 @@
 import React from 'react'
+import UserService from '../services/UserService'
+import { withRouter } from 'react-router';
 
 class HomePage extends React.Component {
+    constructor() {
+        super();
+
+        this.userService = UserService.instance;
+    }
+
+    checkLogin() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 407) {
+                    alert("Please login first.")
+                } else {
+                    this.props.history.push('/grocery');
+                }
+            })
+
+    }
+
     render() {
         return (
             <div className="container-fluid">

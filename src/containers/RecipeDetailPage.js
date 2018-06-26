@@ -65,18 +65,6 @@ class RecipeDetailPage extends React.Component {
             });
     }
 
-    // renderImage() {
-    //     let images = null;
-    //     if(this.state) {
-    //         images = this.state.images.map((image) => {
-    //             if (image === "hostedMediumURL") {
-    //                 return <img src={image}></img>
-    //             }
-    //         })
-    //     }
-    //     return (images);
-    // }
-
     renderIngredients() {
         console.log(this.state.image);
         let ingredients = null;

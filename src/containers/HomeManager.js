@@ -10,6 +10,7 @@ import RecipeDetailPage from "./RecipeDetailPage";
 import CustomerProfile from "./CustomerProfile"
 import DeliveryProfile from "./DeliveryProfile"
 import SellerProfile from "./SellerProfile"
+import GroceryPage from "./GroceryPage";
 
 
 class HomeManager extends React.Component {
@@ -53,6 +54,11 @@ class HomeManager extends React.Component {
                     <Route path="/delivery"
                            component={DeliveryProfile}>
                     </Route>
+
+                    <Route path="/grocery"
+                           component={GroceryPage}>
+                    </Route>
+
                 </div>
             </Router>
 

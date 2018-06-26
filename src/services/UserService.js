@@ -5,6 +5,7 @@ const PROFILE_API_URL = 'http://localhost:8080/api/profile';
 const CUSTOMER_API_URL = 'http://localhost:8080/api/customer';
 const SELLER_API_URL = 'http://localhost:8080/api/seller';
 const DELIVERY_API_URL = 'http://localhost:8080/api/delivery';
+const CHECKLOGIN_API_URL = 'http://localhost:8080/api/checklogin';
 
 let _singleton = Symbol();
 class UserService {
@@ -140,6 +141,15 @@ class UserService {
                 }
             )
     }
+
+    checkLogin() {
+        return fetch(CHECKLOGIN_API_URL)
+            .then(function (response) {
+            return response.json();
+        })
+    }
+
+
 
 
 }

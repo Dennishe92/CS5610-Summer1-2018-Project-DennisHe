@@ -34,7 +34,6 @@ class SellerProfile extends React.Component {
         this.sellerProfileService.findUserByUsername('idiots')
             .then((user) => {
                 this.setState({seller: user});
-                // this.render();
             });
     }
 
@@ -42,7 +41,6 @@ class SellerProfile extends React.Component {
         this.sellerProfileService.findProductsBySeller(this.state.userId)
             .then((recipes) => {
                     this.setState({products: recipes});
-                    // this.render();
                 }
             )
     }
@@ -57,27 +55,25 @@ class SellerProfile extends React.Component {
         });
     }
 
-    emailChanged() {
-
+    emailChanged(event) {
+        this.setState({customer: {email: event.target.value}});
     }
 
-    phoneChanged() {
-
+    phoneChanged(event) {
+        this.setState({customer: {phone: event.target.value}});
     }
 
-    addressChanged() {
-
+    addressChanged(event) {
+        this.setState({customer: {address: event.target.value}});
     }
 
     renderProductList() {
         let products = null;
-
         if (this.state) {
             products = this.state.products.map(
                 (product) => {return <ProductItem key={product.id} product={product}/>}
             )
         }
-
         return (products);
     }
 
@@ -137,26 +133,35 @@ class SellerProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Email </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld"
-                               id="emailwordFld" placeholder={this.state.seller.email}/>
+                        <input onClick={this.emailChanged}
+                               className="form-control wbdv-password-fld"
+                               id="passwordFld"
+                               value={this.state.seller.email}
+                               placeholder="Email"/>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
+                    <label htmlFor="phoneFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="phoneFld"
-                               placeholder={this.state.seller.phone}/>
+                        <input onClick={this.phoneChanged}
+                               className="form-control wbdv-password-fld"
+                               id="phoneFld"
+                               value={this.state.seller.phone}
+                               placeholder="Phone"/>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
+                    <label htmlFor="addressFld" className="col-sm-2 col-form-label">
                         Address </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="addressFld"
-                               placeholder={this.state.seller.address}/>
+                        <input onClick={this.addressChanged}
+                               className="form-control wbdv-password-fld"
+                               id="addressFld"
+                               value={this.state.seller.address}
+                               placeholder='Address'/>
                     </div>
                 </div>
 

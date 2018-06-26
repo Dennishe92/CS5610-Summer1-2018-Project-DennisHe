@@ -1,6 +1,7 @@
 import React from 'react'
 
 const LIKE_API_URL = 'http://localhost:8080/api/customer/like/recipe';
+const FIND_ALL_GROCERIES = 'http://localhost:8080/api/groceries';
 
 let _singleton = Symbol();
 class CustomerService {
@@ -24,6 +25,8 @@ class CustomerService {
             credentials: 'same-origin'
         });
     }
+
+    findAllGroceries
 
 
 }
