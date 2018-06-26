@@ -7,9 +7,9 @@ class CustomerProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: 1,
+            userId: 0,
             customer: {
-                username: 'Stefan',
+                username: '',
                 email: '',
                 phone: '',
                 address: ''},
@@ -32,8 +32,19 @@ class CustomerProfile extends React.Component {
     componentDidMount() {
 
         this.findUser();
-        this.findAllRecipes();
-        this.findAllOrders();
+
+
+
+        // this.findAllOrders();
+
+
+        // this.findUser().then(
+        //     () => {
+        //         this.findAllOrders();
+        //     }
+        // )
+        // this.findAllRecipes();
+
         // this.customerProfileService.populateProfile()
         //     .then((user) => {
         //         this.setState({customer: user});
@@ -44,15 +55,39 @@ class CustomerProfile extends React.Component {
     }
 
     findUser() {
-        this.customerProfileService.findUserByUsername('Stefan')
+        // this.customerProfileService.findUserByUsername()
+        //     .then((user) => {
+        //         this.setState({customer: user});
+        //         // this.render();
+        //     });
+        // this.customerProfileService.findCurrentUser()
+        //     .then((user) => {
+        //         this.setState({userId: user.id});
+        //         }
+        //     );
+        // console.log(this.state.userId);
+
+        // this.customerProfileService.populateProfile()
+        //     .then((user) => {
+        //         this.setState({customer: user});
+        //         });
+        this.customerProfileService.populateProfile()
             .then((user) => {
-                this.setState({customer: user});
-                // this.render();
-            });
-    }
+                console.log(user);
+                this.setState({customer: {username: user.username}});
+
+            }).then(() => {
+            console.log(this.state.customer.username);
+            this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
+                .then((orders) => {
+                    this.setState({orders: orders});
+                    // this.render();
+                })
+        });
+        }
 
     findAllRecipes() {
-        this.customerProfileService.findRecipesByCustomer(this.state.userId)
+        this.customerProfileService.findRecipesByCustomer()
             .then((recipes) => {
                     this.setState({recipes: recipes});
                     // this.render();
@@ -61,7 +96,8 @@ class CustomerProfile extends React.Component {
     }
 
     findAllOrders() {
-        this.customerProfileService.findOrdersByCustomer(this.state.userId)
+        console.log(this.state.customer.username);
+        this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
             .then((orders) => {
                 this.setState({orders: orders});
                 // this.render();
@@ -69,7 +105,7 @@ class CustomerProfile extends React.Component {
     }
 
     updateCustomer() {
-        this.customerProfileService.updateUser(this.state.userId, this.state.customer)
+        this.customerProfileService.updateUser(this.state.customer)
             .then((user) => {this.findUser(user.username);});
     }
 

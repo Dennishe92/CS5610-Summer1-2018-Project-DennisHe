@@ -29,7 +29,8 @@ class UserService {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            credentials: 'same-origin'
         }).then(function(response) {
                 if (response.status === 409 || response.status === 500) {
                     return null;
@@ -42,28 +43,31 @@ class UserService {
     logout() {
         return fetch(USER_API_LOGOUT, {
             method: 'post',
-            credentials: 'include'
+            credentials: 'same-origin'
         });
     }
 
     populateProfile() {
-        return fetch(PROFILE_API_URL)
-            .then(function(response) {
+        return fetch(PROFILE_API_URL, {
+            credentials: 'same-origin'
+        }).then(function(response) {
                 if (response.status === 409) {
                     return null;
                 } else {
                     return response.json();
                 }
+                // return response.json();
             });
     }
 
     updateUser(userId, user) {
-        return fetch(USER_API_URL + '/' + userId, {
+        return fetch(USER_API_URL + '/', {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'PUT'
+            method: 'PUT',
+            credentials: 'same-origin'
         }).then(function (response) {
             return response.json();
         })
@@ -75,7 +79,8 @@ class UserService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'POST'
+            method: 'POST',
+            credentials: 'same-origin'
         }).then(function(response) {
             if (response. status === 409 || response.status === 500) {
                 return null
@@ -87,15 +92,16 @@ class UserService {
 
     findUserByUsername(username) {
         return fetch(
-            USER_API_URL + '/' + username
-        ).then(function (response) {
+            USER_API_URL + '/' + username, {
+                credentials: 'same-origin'
+            }).then(function (response) {
             return response.json();
         });
     }
 
-    findRecipesByCustomer(userId) {
+    findRecipesByCustomer() {
         return fetch(
-            CUSTOMER_API_URL + '/' + userId + '/recipe')
+            CUSTOMER_API_URL  + '/recipes', {credentials: 'same-origin'})
             .then(function (response) {
                     return response.json();
                 }
@@ -110,12 +116,30 @@ class UserService {
         })
     }
 
-    findOrdersByCustomer(userId) {
+    // findOrdersByCustomer() {
+    //     return fetch(
+    //         CUSTOMER_API_URL + '/orders')
+    //         .then(function (response) {
+    //             // if (response.status === 409 || response.status === 500) {
+    //             //     return null;
+    //             // } else {
+    //             //     return response.json();
+    //             // }
+    //         return response.json();
+    //     })
+    // }
+
+    findOrdersByCustomer(username) {
         return fetch(
-            CUSTOMER_API_URL + '/' + userId + '/order'
-        ).then(function (response) {
-            return response.json();
-        })
+            CUSTOMER_API_URL + '/' + username + '/orders')
+            .then(function (response) {
+                // if (response.status === 409 || response.status === 500) {
+                //     return null;
+                // } else {
+                //     return response.json();
+                // }
+                return response.json();
+            })
     }
 
     findOrdersByDelivery(userId) {
@@ -126,6 +150,14 @@ class UserService {
         })
     }
 
+    findCurrentUser() {
+        return fetch(
+            'http://localhost:8080/api/currentUser')
+            .then(function(response) {
+                return response.json();
+            }
+        )
+    }
 }
 
 export default UserService;
