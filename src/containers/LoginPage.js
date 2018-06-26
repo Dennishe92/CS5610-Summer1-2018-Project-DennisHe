@@ -119,18 +119,19 @@ class LoginPage extends React.Component {
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label"></label>
                         <div className="col-sm-10">
-                            <button id="loginBtn" type="button" className="btn btn-primary btn-block">Sign in</button>
+                            <button onClick={() => this.login()}
+                                id="loginBtn" type="button" className="btn btn-primary btn-block">Sign in</button>
 
                             <br></br>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <a href="#">Forgot Password</a>
-                                    </div>
+                                {/*<div className="row">*/}
+                                    {/*<div className="col-6">*/}
+                                        {/*<a href="#">Forgot Password</a>*/}
+                                    {/*</div>*/}
                                     {/*<div className="col-6">*/}
                                         {/*<a href="#" className="float-right">Register*/}
                                             {/*Here</a>*/}
                                     {/*</div>*/}
-                                </div>
+                                {/*</div>*/}
                         </div>
                     </div>
 
