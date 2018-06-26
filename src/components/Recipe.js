@@ -36,8 +36,9 @@ class Recipe extends React.Component {
                     <li className="list-group-item"><strong>Average rating:</strong> {this.props.recipe.rating}</li>
                 </ul>
                 <div className="card-body">
-                    <button onClick={() => this.checkLogin()}
-                        className="btn btn-warning">More Info</button>
+                    <Link to={`/details/${this.props.recipe.id}`}>
+                    <button className="btn btn-warning">More Info</button>
+                    </Link>
                 </div>
             </div>
         )

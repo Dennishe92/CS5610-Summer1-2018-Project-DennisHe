@@ -26,8 +26,11 @@ class CustomerService {
         });
     }
 
-    findAllGroceries
-
-
+    findAllGroceries() {
+        return fetch(FIND_ALL_GROCERIES)
+            .then(function (response) {
+            return response.json();
+        });
+    }
 }
 export default CustomerService;

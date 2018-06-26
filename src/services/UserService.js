@@ -145,7 +145,7 @@ class UserService {
     checkLogin() {
         return fetch(CHECKLOGIN_API_URL)
             .then(function (response) {
-            return response.json();
+            return response;
         })
     }
 

@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
 
     login() {
         if (this.state.username === 'admin' && this.state.password === 'admin') {
-            this.props.history.push('/admin');
+                this.props.history.push('/admin');
         } else {
             const user = {
                 username: this.state.username,
