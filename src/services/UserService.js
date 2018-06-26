@@ -61,7 +61,7 @@ class UserService {
     }
 
     updateUser(userId, user) {
-        return fetch(USER_API_URL + '/', {
+        return fetch('http://localhost:8080/api/profile' + '/' + userId, {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
@@ -99,9 +99,9 @@ class UserService {
         });
     }
 
-    findRecipesByCustomer() {
+    findRecipesByCustomer(userId) {
         return fetch(
-            CUSTOMER_API_URL  + '/recipes', {credentials: 'same-origin'})
+            CUSTOMER_API_URL  + '/' + userId + '/recipes')
             .then(function (response) {
                     return response.json();
                 }
@@ -129,9 +129,9 @@ class UserService {
     //     })
     // }
 
-    findOrdersByCustomer(username) {
+    findOrdersByCustomer(userId) {
         return fetch(
-            CUSTOMER_API_URL + '/' + username + '/orders')
+            CUSTOMER_API_URL + '/' + userId + '/orders')
             .then(function (response) {
                 // if (response.status === 409 || response.status === 500) {
                 //     return null;

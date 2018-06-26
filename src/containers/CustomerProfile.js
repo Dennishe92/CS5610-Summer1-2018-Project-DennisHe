@@ -33,8 +33,6 @@ class CustomerProfile extends React.Component {
 
         this.findUser();
 
-
-
         // this.findAllOrders();
 
 
@@ -74,15 +72,24 @@ class CustomerProfile extends React.Component {
         this.customerProfileService.populateProfile()
             .then((user) => {
                 console.log(user);
-                this.setState({customer: {username: user.username}});
+                this.setState({userId: user.id});
+                console.log(this.state.userId);
 
             }).then(() => {
-            console.log(this.state.customer.username);
-            this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
+            // console.log(this.state.customer.username);
+            this.customerProfileService.findOrdersByCustomer(this.state.userId)
                 .then((orders) => {
                     this.setState({orders: orders});
                     // this.render();
                 })
+        }).then(() => {
+            this.customerProfileService.findRecipesByCustomer(this.state.userId)
+                .then((recipes) => {
+                    console.log(recipes);
+                        this.setState({recipes: recipes});
+                        // this.render();
+                    }
+                )
         });
         }
 
@@ -105,7 +112,7 @@ class CustomerProfile extends React.Component {
     }
 
     updateCustomer() {
-        this.customerProfileService.updateUser(this.state.customer)
+        this.customerProfileService.updateUser(this.state.userId, this.state.customer)
             .then((user) => {this.findUser(user.username);});
     }
 

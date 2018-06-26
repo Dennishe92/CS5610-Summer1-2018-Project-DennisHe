@@ -9,9 +9,8 @@ class RecipeItem extends React.Component {
     render() {
         return (
             <tr>
-                <td>{this.props.recipe.name}</td>
-                <td>{this.props.recipe.rating}</td>
-                <td>{this.props.recipe.url}</td>
+                <td>{this.props.recipe.id}</td>
+                <td>{this.props.recipe.apiId}</td>
             </tr>
         )
     }
