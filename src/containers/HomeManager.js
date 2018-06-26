@@ -49,6 +49,7 @@ class HomeManager extends React.Component {
                     <Route path="/seller"
                            component={SellerProfile}>
                     </Route>
+
                     <Route path="/delivery"
                            component={DeliveryProfile}>
                     </Route>

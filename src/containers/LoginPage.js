@@ -1,5 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import  { Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router';
+
 
 import UserService from "../services/UserService";
 
@@ -36,20 +39,19 @@ class LoginPage extends React.Component {
                 if (response === null) {
                     alert('invalid login credentials')
                 } else {
-                    if (response.dtype === 'Customer') {
-                        <Link to={`/customer`}></Link>
-                    } else if (response.dtype === 'Seller') {
-                        <Link to={`/seller`}></Link>
+                    if (response.role === 'Customer') {
+                        this.props.history.push('/customer');
+                    } else if (response.role === 'Seller') {
+                        this.props.history.push('/seller');
                     }
                     else {
-                        <Link to={`/delivery`}></Link>
+                        this.props.history.push('/delivery')
                     }
                 }
             })
 
 
     }
-
 
     render() {
         return (

@@ -20,7 +20,8 @@ class CustomerService {
             headers: {
               'Content-Type': 'application/json'
             },
-            method: 'post'
+            method: 'post',
+            credentials: 'same-origin'
         });
     }
 

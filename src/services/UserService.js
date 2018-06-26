@@ -27,6 +27,7 @@ class UserService {
         return fetch(USER_API_LOGIN, {
             method: 'post',
             body: JSON.stringify(user),
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -42,13 +43,15 @@ class UserService {
     logout() {
         return fetch(USER_API_LOGOUT, {
             method: 'post',
-            credentials: 'include'
+            credentials: 'same-origin'
         });
     }
 
     populateProfile() {
-        return fetch(PROFILE_API_URL)
-            .then(function(response) {
+        return fetch(PROFILE_API_URL, {
+            method: 'get',
+            credentials: 'same-origin'
+        }).then(function(response) {
                 if (response.status === 409) {
                     return null;
                 } else {
@@ -63,7 +66,8 @@ class UserService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'PUT'
+            method: 'PUT',
+            credentials: 'same-origin'
         }).then(function (response) {
             return response.json();
         })
@@ -75,7 +79,8 @@ class UserService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'POST'
+            method: 'POST',
+            credentials: 'same-origin'
         }).then(function(response) {
             if (response. status === 409 || response.status === 500) {
                 return null
@@ -86,9 +91,10 @@ class UserService {
     }
 
     findUserByUsername(username) {
-        return fetch(
-            USER_API_URL + '/' + username
-        ).then(function (response) {
+        return fetch(USER_API_URL + '/' + username, {
+            credentials: 'same-origin'
+        })
+            .then(function (response) {
             return response.json();
         });
     }
@@ -110,9 +116,9 @@ class UserService {
         })
     }
 
-    findOrdersByCustomer(userId) {
+    findOrdersByCustomer(username) {
         return fetch(
-            CUSTOMER_API_URL + '/' + userId + '/order'
+            CUSTOMER_API_URL + '/' + username + '/order'
         ).then(function (response) {
             return response.json();
         })
@@ -126,6 +132,15 @@ class UserService {
         })
     }
 
-}
+    findCurrentUser() {
+        return fetch(
+            'http://localhost:8080/api/currentUser')
+            .then(function(response) {
+                    return response.json();
+                }
+            )
+    }
 
+
+}
 export default UserService;
