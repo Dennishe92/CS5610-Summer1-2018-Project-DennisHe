@@ -6,8 +6,10 @@ const CUSTOMER_API_URL = 'http://localhost:8080/api/customer';
 const SELLER_API_URL = 'http://localhost:8080/api/seller';
 const DELIVERY_API_URL = 'http://localhost:8080/api/delivery';
 const CHECKLOGIN_API_URL = 'http://localhost:8080/api/checklogin';
+const ORDER_API_URL = 'http://localhost:8080/api/order';
 const FIND_ALL_SELLERS_API_URL = 'http://localhost:8080/api/seller';
 const FOLLOW_SELLER_API_URL = 'http://localhost:8080/api/customer/follow/seller';
+const CURRENT_USER_API_URL = 'http://localhost:8080/api/user/current'
 
 let _singleton = Symbol();
 class UserService {
@@ -25,6 +27,28 @@ class UserService {
     deleteUser(customerId) {
 
     }
+
+    findAllOrders() {
+        return fetch(ORDER_API_URL)
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
+    findAllRecipes() {
+        return fetch('http://localhost:8080/api/recipe')
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
+    findAllProducts() {
+        return fetch('http://localhost:8080/api/product')
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
 
     login(user) {
         return fetch(USER_API_LOGIN, {
@@ -136,8 +160,7 @@ class UserService {
     }
 
     findCurrentUser() {
-        return fetch(
-            'http://localhost:8080/api/currentUser')
+        return fetch(CURRENT_USER_API_URL)
             .then(function(response) {
                     return response.json();
                 }

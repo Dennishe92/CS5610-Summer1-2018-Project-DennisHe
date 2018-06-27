@@ -9,7 +9,8 @@ class OrderItem extends React.Component {
     render() {
         return (
             <tr>
-                <td>{this.props.order.name}</td>
+                <td>{this.props.order.id}</td>
+                <td>{this.props.order.address}</td>
             </tr>
         )
     }

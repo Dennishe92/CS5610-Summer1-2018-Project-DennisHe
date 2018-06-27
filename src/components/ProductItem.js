@@ -10,6 +10,8 @@ class ProductItem extends React.Component {
         return (
             <tr>
                 <td>{this.props.product.name}</td>
+                <td>{this.props.product.sellerName}</td>
+                <td>{this.props.product.price}</td>
             </tr>
         )
     }

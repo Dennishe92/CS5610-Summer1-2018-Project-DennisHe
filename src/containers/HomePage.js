@@ -21,6 +21,27 @@ class HomePage extends React.Component {
             })
     }
 
+    checkLoginForLogin() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role === 'Customer') {
+                                this.props.history.push('/customer');
+                            } else if (user.role === 'Seller') {
+                                this.props.history.push('/seller');
+                            }
+                            else {
+                                this.props.history.push('/delivery')
+                            }
+                        })
+                }
+            })
+    }
+
 
     render() {
         return (
@@ -47,7 +68,7 @@ class HomePage extends React.Component {
 
                         <ul className="nav navbar-nav">
                             <li className="nav-item active">
-                                <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForLogin()}>Login<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
                                 <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
