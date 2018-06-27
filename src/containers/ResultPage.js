@@ -1,10 +1,7 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-
 
 import YummlyService from '../services/YummlyService'
 import Recipe from '../components/Recipe'
-import RecipeDetailPage from "./RecipeDetailPage";
 
 class ResultPage extends React.Component {
     constructor(props) {
@@ -54,8 +51,7 @@ class ResultPage extends React.Component {
                                 search={this.state.search}/>
                     </div>
                 )
-            }
-        );
+            });
         return recipes;
     }
 

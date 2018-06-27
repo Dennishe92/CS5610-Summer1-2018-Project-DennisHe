@@ -5,6 +5,8 @@ const PROFILE_API_URL = 'http://localhost:8080/api/profile';
 const CUSTOMER_API_URL = 'http://localhost:8080/api/customer';
 const SELLER_API_URL = 'http://localhost:8080/api/seller';
 const DELIVERY_API_URL = 'http://localhost:8080/api/delivery';
+const CHECKLOGIN_API_URL = 'http://localhost:8080/api/checklogin';
+const ORDER_API_URL = 'http://localhost:8080/api/order';
 
 let _singleton = Symbol();
 class UserService {
@@ -23,14 +25,35 @@ class UserService {
 
     }
 
+    findAllOrders() {
+        return fetch(ORDER_API_URL)
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
+    findAllRecipes() {
+        return fetch('http://localhost:8080/api/recipe')
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
+    findAllProducts() {
+        return fetch('http://localhost:8080/api/product')
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
     login(user) {
         return fetch(USER_API_LOGIN, {
             method: 'post',
             body: JSON.stringify(user),
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
+            }
         }).then(function(response) {
                 if (response.status === 409 || response.status === 500) {
                     return null;
@@ -49,6 +72,7 @@ class UserService {
 
     populateProfile() {
         return fetch(PROFILE_API_URL, {
+            method: 'get',
             credentials: 'same-origin'
         }).then(function(response) {
                 if (response.status === 409) {
@@ -56,12 +80,11 @@ class UserService {
                 } else {
                     return response.json();
                 }
-                // return response.json();
             });
     }
 
     updateUser(userId, user) {
-        return fetch('http://localhost:8080/api/profile' + '/' + userId, {
+        return fetch(USER_API_URL + '/' + userId, {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
@@ -90,18 +113,19 @@ class UserService {
         })
     }
 
-    findUserByUsername(username) {
-        return fetch(
-            USER_API_URL + '/' + username, {
-                credentials: 'same-origin'
-            }).then(function (response) {
+    findUserById(userId) {
+        return fetch(USER_API_URL + '/' + userId, {
+            credentials: 'same-origin'
+        })
+            .then(function (response) {
             return response.json();
         });
     }
 
     findRecipesByCustomer(userId) {
         return fetch(
-            CUSTOMER_API_URL  + '/' + userId + '/recipes')
+            CUSTOMER_API_URL + '/' + userId + '/recipe',{
+                credentials: 'same-origin'})
             .then(function (response) {
                     return response.json();
                 }
@@ -116,30 +140,12 @@ class UserService {
         })
     }
 
-    // findOrdersByCustomer() {
-    //     return fetch(
-    //         CUSTOMER_API_URL + '/orders')
-    //         .then(function (response) {
-    //             // if (response.status === 409 || response.status === 500) {
-    //             //     return null;
-    //             // } else {
-    //             //     return response.json();
-    //             // }
-    //         return response.json();
-    //     })
-    // }
-
     findOrdersByCustomer(userId) {
         return fetch(
-            CUSTOMER_API_URL + '/' + userId + '/orders')
-            .then(function (response) {
-                // if (response.status === 409 || response.status === 500) {
-                //     return null;
-                // } else {
-                //     return response.json();
-                // }
-                return response.json();
-            })
+            CUSTOMER_API_URL + '/' + userId + '/order'
+        ).then(function (response) {
+            return response.json();
+        })
     }
 
     findOrdersByDelivery(userId) {
@@ -154,10 +160,20 @@ class UserService {
         return fetch(
             'http://localhost:8080/api/currentUser')
             .then(function(response) {
-                return response.json();
-            }
-        )
+                    return response.json();
+                }
+            )
     }
-}
 
+    checkLogin() {
+        return fetch(CHECKLOGIN_API_URL)
+            .then(function (response) {
+            return response;
+        })
+    }
+
+
+
+
+}
 export default UserService;

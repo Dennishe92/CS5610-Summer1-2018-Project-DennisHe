@@ -1,6 +1,7 @@
 import React from 'react'
 
 const LIKE_API_URL = 'http://localhost:8080/api/customer/like/recipe';
+const FIND_ALL_GROCERIES = 'http://localhost:8080/api/groceries';
 
 let _singleton = Symbol();
 class CustomerService {
@@ -25,6 +26,11 @@ class CustomerService {
         });
     }
 
-
+    findAllGroceries() {
+        return fetch(FIND_ALL_GROCERIES)
+            .then(function (response) {
+            return response.json();
+        });
+    }
 }
 export default CustomerService;

@@ -22,68 +22,70 @@ class DeliveryProfile extends React.Component {
         this.addressChanged = this.addressChanged.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
-        this.findAllOrders = this.findAllOrders.bind(this);
+        // this.findAllOrders = this.findAllOrders.bind(this);
     };
 
     componentDidMount() {
         this.findUser();
-        this.findAllOrders();
     }
 
     findUser() {
-        this.deliveryProfileService.findUserByUsername('batman')
+        this.deliveryProfileService.populateProfile()
             .then((user) => {
-                this.setState({delivery: user});
-                // this.render();
-            });
-    }
-
-    findAllOrders() {
-        this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
-            .then((orders) => {
-                this.setState({orders: orders});
-                // this.render();
+                this.setState({userId: user.id});
+                this.setState({delivery: {username: user.username}});
+                this.setState({delivery: {email: user.email}});
+                this.setState({delivery: {phone: user.phone}});
+                this.setState({delivery: {address: user.address}});
+            })
+            .then(() => {
+                this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
+                    .then((orders) => {
+                        this.setState({orders: orders});
+                    })
             })
     }
 
+    // findAllOrders() {
+    //     this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
+    //         .then((orders) => {
+    //             this.setState({orders: orders});
+    //         })
+    // }
+
     updateDelivery() {
         this.deliveryProfileService.updateUser(this.state.userId, this.state.delivery)
-            .then((user) => {this.findUser(user.username);});
+            .then(this.findUser);
     }
 
     usernameChanged(event) {
-        console.log(event.target.value);
         this.setState({delivery: {username: event.target.value}
         });
     }
 
-    emailChanged() {
-
+    emailChanged(event) {
+        this.setState({delivery: {email: event.target.value}});
     }
 
-    phoneChanged() {
-
+    phoneChanged(event) {
+        this.setState({delvery: {phone: event.target.value}});
     }
 
-    addressChanged() {
-
+    addressChanged(event) {
+        this.setState({delivery: {address: event.target.value}});
     }
 
     renderOrderList() {
         let orders = null;
-
         if (this.state) {
-            // console.log(this.state.orders.length);
             orders = this.state.orders.map(
                 (order) => {return <OrderItem key={order.id} order={order}/>}
             )
         }
-
         return (orders);
     }
 
     render() {
-        console.log(this.state.delivery);
         return <div className="container-fluid">
 
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -139,8 +141,11 @@ class DeliveryProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Email </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld"
-                               id="passwordFld" placeholder={this.state.delivery.email}/>
+                        <input onClick={this.emailChanged}
+                               className="form-control wbdv-password-fld"
+                               id="passwordFld"
+                               value={this.state.delivery.email}
+                               placeholder="Email"/>
                     </div>
                 </div>
 
@@ -148,8 +153,11 @@ class DeliveryProfile extends React.Component {
                     <label htmlFor="phoneFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="phoneFld"
-                               placeholder={this.state.delivery.phone}/>
+                        <input onClick={this.phoneChanged}
+                               className="form-control wbdv-password-fld"
+                               id="phoneFld"
+                               value={this.state.delivery.phone}
+                               placeholder="Phone"/>
                     </div>
                 </div>
 
@@ -157,8 +165,11 @@ class DeliveryProfile extends React.Component {
                     <label htmlFor="addressFld" className="col-sm-2 col-form-label">
                         Address </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="addressFld"
-                               placeholder={this.state.delivery.address}/>
+                        <input onClick={this.addressChanged}
+                               className="form-control wbdv-password-fld"
+                               id="addressFld"
+                               value={this.state.delivery.address}
+                               placeholder='Address'/>
                     </div>
                 </div>
 

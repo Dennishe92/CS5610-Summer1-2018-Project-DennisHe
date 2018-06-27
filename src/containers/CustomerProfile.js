@@ -7,7 +7,7 @@ class CustomerProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: 0,
+            userId: 1,
             customer: {
                 username: '',
                 email: '',
@@ -25,120 +25,76 @@ class CustomerProfile extends React.Component {
         this.renderRecipeList = this.renderRecipeList.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
-        this.findAllRecipes = this.findAllRecipes.bind(this);
-        this.findAllOrders = this.findAllOrders.bind(this);
+        // this.findAllRecipes = this.findAllRecipes.bind(this);
+        // this.findAllOrders = this.findAllOrders.bind(this);
     };
 
     componentDidMount() {
-
         this.findUser();
-
-        // this.findAllOrders();
-
-
-        // this.findUser().then(
-        //     () => {
-        //         this.findAllOrders();
-        //     }
-        // )
-        // this.findAllRecipes();
-
-        // this.customerProfileService.populateProfile()
-        //     .then((user) => {
-        //         this.setState({customer: user});
-        //         this.setState({customer: {userId: user.id}});
-        //         // console.log(this.state.customer.userId);
-        //     })
-        // this.render();
     }
 
     findUser() {
-        // this.customerProfileService.findUserByUsername()
-        //     .then((user) => {
-        //         this.setState({customer: user});
-        //         // this.render();
-        //     });
-        // this.customerProfileService.findCurrentUser()
-        //     .then((user) => {
-        //         this.setState({userId: user.id});
-        //         }
-        //     );
-        // console.log(this.state.userId);
-
-        // this.customerProfileService.populateProfile()
-        //     .then((user) => {
-        //         this.setState({customer: user});
-        //         });
         this.customerProfileService.populateProfile()
             .then((user) => {
-                console.log(user);
                 this.setState({userId: user.id});
-                console.log(this.state.userId);
-
-            }).then(() => {
-            // console.log(this.state.customer.username);
-            this.customerProfileService.findOrdersByCustomer(this.state.userId)
-                .then((orders) => {
-                    this.setState({orders: orders});
-                    // this.render();
-                })
-        }).then(() => {
-            this.customerProfileService.findRecipesByCustomer(this.state.userId)
-                .then((recipes) => {
-                    console.log(recipes);
-                        this.setState({recipes: recipes});
-                        // this.render();
-                    }
-                )
-        });
-        }
-
-    findAllRecipes() {
-        this.customerProfileService.findRecipesByCustomer()
-            .then((recipes) => {
-                    this.setState({recipes: recipes});
-                    // this.render();
-                }
-            )
-    }
-
-    findAllOrders() {
-        console.log(this.state.customer.username);
-        this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
-            .then((orders) => {
-                this.setState({orders: orders});
-                // this.render();
+                this.setState({customer: {username: user.username}});
+                this.setState({customer: {email: user.email}});
+                this.setState({customer: {phone: user.phone}});
+                this.setState({customer: {address: user.address}});
+            })
+            .then(() => {
+                this.customerProfileService.findOrdersByCustomer(this.state.userId)
+                    .then((orders) => {
+                        this.setState({orders: orders});
+                    })
+            })
+            .then(() => {
+                this.customerProfileService.findRecipesByCustomer(this.state.userId)
+                    .then((recipes) => {
+                        this.setState({recipes: recipes})
+                    })
             })
     }
 
+    // findAllRecipes() {
+    //     this.customerProfileService.findRecipesByCustomer()
+    //         .then((recipes) => {
+    //                 this.setState({recipes: recipes});
+    //             }
+    //         )
+    // }
+
+    // findAllOrders() {
+    //     this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
+    //         .then((orders) => {
+    //             this.setState({orders: orders});
+    //         })
+    // }
+
     updateCustomer() {
         this.customerProfileService.updateUser(this.state.userId, this.state.customer)
-            .then((user) => {this.findUser(user.username);});
+            .then(this.findUser);
     }
 
     usernameChanged(event) {
-        console.log(event.target.value);
-        this.setState({customer: {username: event.target.value}
-        });
+        this.setState({customer: {username: event.target.value}});
     }
 
-    emailChanged() {
-
+    emailChanged(event) {
+        this.setState({customer: {email: event.target.value}});
     }
 
-    phoneChanged() {
-
+    phoneChanged(event) {
+        this.setState({customer: {phone: event.target.value}});
     }
 
-    addressChanged() {
-
+    addressChanged(event) {
+        this.setState({customer: {address: event.target.value}});
     }
 
     renderRecipeList() {
         let recipes = null;
-
         if (this.state) {
-            console.log(this.state.recipes.length);
             recipes = this.state.recipes.map(
                 (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe}/>}
             )
@@ -148,14 +104,11 @@ class CustomerProfile extends React.Component {
 
     renderOrderList() {
         let orders = null;
-
         if (this.state) {
-            // console.log(this.state.orders.length);
             orders = this.state.orders.map(
                 (order) => {return <OrderItem key={order.id} order={order}/>}
             )
         }
-
         return (orders);
     }
 
@@ -215,8 +168,11 @@ class CustomerProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Email </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld"
-                               id="emailwordFld" placeholder={this.state.customer.email}/>
+                        <input onChange={this.emailChanged}
+                               className="form-control wbdv-password-fld"
+                               id="emailwordFld"
+                               value={this.state.customer.email}
+                               placeholder="Email"/>
                     </div>
                 </div>
 
@@ -224,8 +180,11 @@ class CustomerProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="phoneFld"
-                               placeholder={this.state.customer.phone}/>
+                        <input onChange={this.phoneChanged}
+                               className="form-control wbdv-password-fld"
+                               id="phoneFld"
+                               value={this.state.customer.phone}
+                               placeholder="Phone"/>
                     </div>
                 </div>
 
@@ -233,8 +192,11 @@ class CustomerProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Address </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="addressFld"
-                               placeholder={this.state.customer.address}/>
+                        <input onChange={this.addressChanged}
+                               className="form-control wbdv-password-fld"
+                               id="addressFld"
+                               value={this.state.customer.address}
+                               placeholder="Address"/>
                     </div>
                 </div>
 

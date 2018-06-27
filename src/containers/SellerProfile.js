@@ -22,34 +22,41 @@ class SellerProfile extends React.Component {
         this.addressChanged = this.addressChanged.bind(this);
         this.renderProductList = this.renderProductList.bind(this);
         this.findUser = this.findUser.bind(this);
-        this.findAllProducts = this.findAllProducts.bind(this);
+        // this.findAllProducts = this.findAllProducts.bind(this);
     };
 
     componentDidMount() {
         this.findUser();
-        this.findAllProducts();
     }
 
     findUser() {
-        this.sellerProfileService.findUserByUsername('idiots')
+        this.sellerProfileService.populateProfile()
             .then((user) => {
-                this.setState({seller: user});
-                // this.render();
-            });
+                this.setState({userId: user.id});
+                this.setState({seller: {username: user.username}});
+                this.setState({seller: {email: user.email}});
+                this.setState({seller: {phone: user.phone}});
+                this.setState({seller: {address: user.address}});
+            })
+            .then(() => {
+                this.sellerProfileService.findProductsBySeller(this.state.userId)
+                    .then((products) => {
+                        this.setState({products: products});
+                    })
+            })
     }
 
-    findAllProducts() {
-        this.sellerProfileService.findProductsBySeller(this.state.userId)
-            .then((recipes) => {
-                    this.setState({products: recipes});
-                    // this.render();
-                }
-            )
-    }
+    // findAllProducts() {
+    //     this.sellerProfileService.findProductsBySeller(this.state.userId)
+    //         .then((products) => {
+    //                 this.setState({products: products});
+    //             }
+    //         )
+    // }
 
     updateSeller() {
         this.sellerProfileService.updateUser(this.state.userId, this.state.seller)
-            .then((user) => {this.findUser(user.username);});
+            .then(this.findUser);
     }
 
     usernameChanged(event) {
@@ -57,27 +64,25 @@ class SellerProfile extends React.Component {
         });
     }
 
-    emailChanged() {
-
+    emailChanged(event) {
+        this.setState({seller: {email: event.target.value}});
     }
 
-    phoneChanged() {
-
+    phoneChanged(event) {
+        this.setState({seller: {phone: event.target.value}});
     }
 
-    addressChanged() {
-
+    addressChanged(event) {
+        this.setState({seller: {address: event.target.value}});
     }
 
     renderProductList() {
         let products = null;
-
         if (this.state) {
             products = this.state.products.map(
                 (product) => {return <ProductItem key={product.id} product={product}/>}
             )
         }
-
         return (products);
     }
 
@@ -137,26 +142,35 @@ class SellerProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Email </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld"
-                               id="emailwordFld" placeholder={this.state.seller.email}/>
+                        <input onClick={this.emailChanged}
+                               className="form-control wbdv-password-fld"
+                               id="passwordFld"
+                               value={this.state.seller.email}
+                               placeholder="Email"/>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
+                    <label htmlFor="phoneFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="phoneFld"
-                               placeholder={this.state.seller.phone}/>
+                        <input onClick={this.phoneChanged}
+                               className="form-control wbdv-password-fld"
+                               id="phoneFld"
+                               value={this.state.seller.phone}
+                               placeholder="Phone"/>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
+                    <label htmlFor="addressFld" className="col-sm-2 col-form-label">
                         Address </label>
                     <div className="col-sm-10">
-                        <input className="form-control wbdv-password-fld" id="addressFld"
-                               placeholder={this.state.seller.address}/>
+                        <input onClick={this.addressChanged}
+                               className="form-control wbdv-password-fld"
+                               id="addressFld"
+                               value={this.state.seller.address}
+                               placeholder='Address'/>
                     </div>
                 </div>
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import  { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router';
 
+
 import UserService from "../services/UserService";
 
 class LoginPage extends React.Component {
@@ -29,32 +30,30 @@ class LoginPage extends React.Component {
     }
 
     login() {
-        // console.log("hi");
-        const user = {
-            username: this.state.username,
-            password: this.state.password
+        if (this.state.username === 'admin' && this.state.password === 'admin') {
+                this.props.history.push('/admin');
+        } else {
+            const user = {
+                username: this.state.username,
+                password: this.state.password
+            }
+            this.userService.login(user)
+                .then((response) => {
+                    if (response === null) {
+                        alert('invalid login credentials')
+                    } else {
+                        if (response.role === 'Customer') {
+                            this.props.history.push('/customer');
+                        } else if (response.role === 'Seller') {
+                            this.props.history.push('/seller');
+                        }
+                        else {
+                            this.props.history.push('/delivery')
+                        }
+                    }
+                })
         }
-        this.userService.login(user)
-            .then((response) => {
-                if (response === null) {
-                    alert('invalid login credentials')
-                } else {
-                    console.log(response);
-                    if (response.role === 'Customer') {
-                        console.log("hi");
-                        // return (<Link to={`/customer`}>something</Link>)
-                        // return <Redirect to='/customer' />
-                        this.props.history.push('/customer')
-                    } else if (response.role === 'Seller') {
-                        return (<Link to={`/seller`}>something</Link>)
-                    }
-                    else {
-                       return (<Link to={`/delivery`}>something</Link>)
-                    }
-                }
-            })
     }
-
 
     render() {
         return (
@@ -126,17 +125,6 @@ class LoginPage extends React.Component {
                         <div className="col-sm-10">
                             <button onClick={() => this.login()}
                                 id="loginBtn" type="button" className="btn btn-primary btn-block">Sign in</button>
-
-                            <br></br>
-                                {/*<div className="row">*/}
-                                    {/*<div className="col-6">*/}
-                                        {/*<a href="#">Forgot Password</a>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="col-6">*/}
-                                        {/*<a href="#" className="float-right">Register*/}
-                                            {/*Here</a>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
                         </div>
                     </div>
 

@@ -2,6 +2,7 @@ import React from'react'
 
 import YummlyService from "../services/YummlyService";
 import CustomerService from "../services/CustomerService";
+import UserService from '../services/UserService';
 
 
 class RecipeDetailPage extends React.Component {
@@ -23,6 +24,7 @@ class RecipeDetailPage extends React.Component {
 
         this.yummlyService = YummlyService.instance;
         this.customerService = CustomerService.instance;
+        this.userService = UserService.instance;
     }
 
     setSearch(search) {
@@ -65,18 +67,6 @@ class RecipeDetailPage extends React.Component {
             });
     }
 
-    // renderImage() {
-    //     let images = null;
-    //     if(this.state) {
-    //         images = this.state.images.map((image) => {
-    //             if (image === "hostedMediumURL") {
-    //                 return <img src={image}></img>
-    //             }
-    //         })
-    //     }
-    //     return (images);
-    // }
-
     renderIngredients() {
         console.log(this.state.image);
         let ingredients = null;
@@ -89,8 +79,14 @@ class RecipeDetailPage extends React.Component {
     }
 
     likeRecipe(recipeId) {
-        console.log(recipeId);
-        this.customerService.likeRecipe(recipeId);
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.");
+                } else {
+                    this.customerService.likeRecipe(recipeId);
+                }
+        });
     }
 
     render() {
