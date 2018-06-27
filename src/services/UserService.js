@@ -6,6 +6,8 @@ const CUSTOMER_API_URL = 'http://localhost:8080/api/customer';
 const SELLER_API_URL = 'http://localhost:8080/api/seller';
 const DELIVERY_API_URL = 'http://localhost:8080/api/delivery';
 const CHECKLOGIN_API_URL = 'http://localhost:8080/api/checklogin';
+const FIND_ALL_SELLERS_API_URL = 'http://localhost:8080/api/seller';
+const FOLLOW_SELLER_API_URL = 'http://localhost:8080/api/customer/follow/seller';
 
 let _singleton = Symbol();
 class UserService {
@@ -148,6 +150,25 @@ class UserService {
             return response;
         })
     }
+
+    findAllSellers() {
+        return fetch(FIND_ALL_SELLERS_API_URL)
+            .then(function(response){
+                return response.json();
+            });
+    }
+
+    followSeller(sellerId) {
+        return fetch (FOLLOW_SELLER_API_URL + '/' + sellerId, {
+            body: JSON.stringify(sellerId),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'post',
+            credentials: 'same-origin'
+        });
+    }
+
 
 
 

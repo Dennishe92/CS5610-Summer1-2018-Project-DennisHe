@@ -10,12 +10,16 @@ class RegisterPage extends React.Component {
         this.state = {
             username: 'default',
             password: 'default',
+            firstName: 'default',
+            lastName: 'default',
             verifyPassword: 'default',
             userType: 'default'
         }
 
         this.userTypeChanged = this.userTypeChanged.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
+        this.firstNameChanged = this.firstNameChanged.bind(this);
+        this.lastNameChanged = this.lastNameChanged.bind(this);
         this.passwordChanged = this.passwordChanged.bind(this);
         this.verifyPasswordChanged = this.verifyPasswordChanged.bind(this);
         this.createUser = this.createUser.bind(this);
@@ -32,6 +36,14 @@ class RegisterPage extends React.Component {
         this.setState({username: event.target.value})
     }
 
+    firstNameChanged(event) {
+        this.setState({firstName: event.target.value})
+    }
+
+    lastNameChanged(event) {
+        this.setState({lastName: event.target.value})
+    }
+
     passwordChanged(event) {
         this.setState({password: event.target.value})
     }
@@ -46,6 +58,8 @@ class RegisterPage extends React.Component {
         } else {
             const user = {
                 username: this.state.username,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
                 password: this.state.password
             }
             this.userService.createUser(this.state.userType, user)
@@ -120,6 +134,24 @@ class RegisterPage extends React.Component {
                                    onChange = {this.usernameChanged}
                                    id="usernameFld"
                                    placeholder="Username"></input>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">First Name</label>
+                        <div className="col-sm-10">
+                            <input type="text"
+                                   className="form-control"
+                                   onChange = {this.firstNameChanged}
+                                   placeholder="First Name"></input>
+                        </div>
+                    </div>
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Last Name</label>
+                        <div className="col-sm-10">
+                            <input type="text"
+                                   className="form-control"
+                                   onChange = {this.lastNameChanged}
+                                   placeholder="Last Name"></input>
                         </div>
                     </div>
                     <div className="form-group row">

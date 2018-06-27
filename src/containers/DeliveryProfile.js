@@ -22,7 +22,6 @@ class DeliveryProfile extends React.Component {
         this.addressChanged = this.addressChanged.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
-        this.findAllOrders = this.findAllOrders.bind(this);
     };
 
     componentDidMount() {
@@ -45,13 +44,6 @@ class DeliveryProfile extends React.Component {
                     })
             })
     }
-
-    // findAllOrders() {
-    //     this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
-    //         .then((orders) => {
-    //             this.setState({orders: orders});
-    //         })
-    // }
 
     updateDelivery() {
         this.deliveryProfileService.updateUser(this.state.userId, this.state.delivery)

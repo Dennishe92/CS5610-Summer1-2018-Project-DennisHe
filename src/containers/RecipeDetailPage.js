@@ -84,8 +84,10 @@ class RecipeDetailPage extends React.Component {
                 if (response.status === 409) {
                     alert("Please login first.");
                 } else {
-                    this.customerService.likeRecipe(recipeId);
+                    this.customerService.likeRecipe(recipeId)
+                        .then(alert("success"));
                 }
+            })
     }
 
     render() {

@@ -22,7 +22,6 @@ class SellerProfile extends React.Component {
         this.addressChanged = this.addressChanged.bind(this);
         this.renderProductList = this.renderProductList.bind(this);
         this.findUser = this.findUser.bind(this);
-        this.findAllProducts = this.findAllProducts.bind(this);
     };
 
     componentDidMount() {
@@ -45,14 +44,6 @@ class SellerProfile extends React.Component {
                     })
             })
     }
-
-    // findAllProducts() {
-    //     this.sellerProfileService.findProductsBySeller(this.state.userId)
-    //         .then((products) => {
-    //                 this.setState({products: products});
-    //             }
-    //         )
-    // }
 
     updateSeller() {
         this.sellerProfileService.updateUser(this.state.userId, this.state.seller)

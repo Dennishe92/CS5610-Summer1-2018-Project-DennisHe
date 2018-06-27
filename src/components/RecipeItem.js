@@ -1,16 +1,17 @@
 import React from 'react'
 
-import UserService from '../services/UserService'
+import CustomerService from '../services/CustomerService'
 
 class RecipeItem extends React.Component {
     constructor(props) {
         super(props);
 
-        this.userService = UserService.instance;
+        this.customerService = CustomerService.instance;
     }
 
-    unlikeRecipe(recipeId) {
-        this.userService.unlikeRecipe(recipeId);
+    unlikeRecipe() {
+        this.customerService
+            .unlikeRecipe(this.props.userId, this.props.recipe.id);
     }
 
     render() {
@@ -18,8 +19,7 @@ class RecipeItem extends React.Component {
             <tr>
                 <td>{this.props.recipe.name}</td>
                 <td>{this.props.recipe.rating}</td>
-                <td>{this.props.recipe.url}</td>
-                <td><button onClick={() => this.unlikeRecipe(this.props.recipe.id)}
+                <td><button onClick={() => this.unlikeRecipe()}
                             className="btn btn-danger float-right">Unlike</button></td>
             </tr>
         )

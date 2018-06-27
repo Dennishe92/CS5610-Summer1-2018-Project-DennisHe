@@ -27,11 +27,11 @@ class Admin extends React.Component {
         this.setState({recipes: recipes})
     }
 
-    // componentDidMount() {
-    //     this.findAllOrders();
-    //     this.findAllProducts();
-    //     this.findAllRecipes();
-    // }
+    componentDidMount() {
+        this.findAllOrders();
+        this.findAllProducts();
+        this.findAllRecipes();
+    }
 
     findAllOrders() {
         this.adminService.findAllOrders

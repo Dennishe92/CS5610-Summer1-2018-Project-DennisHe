@@ -25,8 +25,6 @@ class CustomerProfile extends React.Component {
         this.renderRecipeList = this.renderRecipeList.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
-        this.findAllRecipes = this.findAllRecipes.bind(this);
-        this.findAllOrders = this.findAllOrders.bind(this);
     };
 
     componentDidMount() {
@@ -56,21 +54,6 @@ class CustomerProfile extends React.Component {
             })
     }
 
-    // findAllRecipes() {
-    //     this.customerProfileService.findRecipesByCustomer()
-    //         .then((recipes) => {
-    //                 this.setState({recipes: recipes});
-    //             }
-    //         )
-    // }
-
-    // findAllOrders() {
-    //     this.customerProfileService.findOrdersByCustomer(this.state.customer.username)
-    //         .then((orders) => {
-    //             this.setState({orders: orders});
-    //         })
-    // }
-
     updateCustomer() {
         this.customerProfileService.updateUser(this.state.userId, this.state.customer)
             .then(this.findUser);
@@ -96,7 +79,7 @@ class CustomerProfile extends React.Component {
         let recipes = null;
         if (this.state) {
             recipes = this.state.recipes.map(
-                (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe}/>}
+                (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe} userId={this.state.userId}/>}
             )
         }
         return (recipes);
@@ -219,9 +202,9 @@ class CustomerProfile extends React.Component {
                 <table className="table">
                     <thead>
                     <tr>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>Rating</th>
-                        <th scope='col'>Url</th>
+                        <th scope='col'>Item</th>
+                        <th scope='col'>Link</th>
+                        <th scope='col'></th>
                     </tr>
                     </thead>
                     <tbody>

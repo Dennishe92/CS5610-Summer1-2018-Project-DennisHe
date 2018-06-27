@@ -9,17 +9,18 @@ class HomePage extends React.Component {
         this.userService = UserService.instance;
     }
 
-    checkLogin() {
+    checkLoginForGrocery() {
         this.userService.checkLogin()
             .then((response) => {
-                if (response.status === 407) {
+                if (response.status === 409) {
                     alert("Please login first.")
+                    this.props.history.push('/login');
                 } else {
                     this.props.history.push('/grocery');
                 }
             })
-
     }
+
 
     render() {
         return (
@@ -40,10 +41,7 @@ class HomePage extends React.Component {
                                 <a className="nav-link" href="http://localhost:3000/search">Search<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">My Profile<span className="sr-only">(current)</span></a>
-                            </li>
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">Groceries<span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForGrocery()}>Groceries<span className="sr-only">(current)</span></a>
                             </li>
                         </ul>
 

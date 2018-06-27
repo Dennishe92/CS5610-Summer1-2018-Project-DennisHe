@@ -12,6 +12,8 @@ import DeliveryProfile from "./DeliveryProfile"
 import SellerProfile from "./SellerProfile"
 import GroceryPage from "./GroceryPage";
 import Admin from "./Admin";
+import SellerPage from "./SellerPage";
+
 
 
 class HomeManager extends React.Component {
@@ -62,6 +64,10 @@ class HomeManager extends React.Component {
 
                     <Route path="/admin"
                            component={Admin}>
+                    </Route>
+
+                    <Route path="/sellerpage"
+                           component={SellerPage}>
                     </Route>
 
                 </div>
