@@ -46,7 +46,14 @@ class HomePage extends React.Component {
                     alert("You are not logged in");
                 } else {
                     this.userService.logout()
-                        .then( alert("You successfully logged out"));
+                        .then((response) => {
+                            if (response.status === 409) {
+                                alert("You successfully logged out")
+                            } else {
+                                alert("Logout unsuccessful")
+                            }
+                        })
+
                 }
             })
     }

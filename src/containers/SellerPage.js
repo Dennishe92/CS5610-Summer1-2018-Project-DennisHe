@@ -12,6 +12,7 @@ class SellerPage extends React.Component {
         }
 
         this.setSellers = this.setSellers.bind(this);
+        this.findAllSellers = this.findAllSellers.bind(this);
 
         this.userService = UserService.instance;
     }
