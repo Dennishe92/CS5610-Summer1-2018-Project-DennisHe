@@ -31,6 +31,11 @@ class SellerPage extends React.Component {
             })
     }
 
+    followSeller() {
+        this.userService.followSeller(this.state.seller.id)
+            .then(this.findAllSellers());
+    }
+
     renderSellers() {
         let sellers = null;
         if (this.state) {

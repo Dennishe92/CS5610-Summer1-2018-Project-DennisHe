@@ -199,7 +199,9 @@ class UserService {
             },
             method: 'post',
             credentials: 'same-origin'
-        });
+        }).then(function(response) {
+            return response.json()
+        })
     }
 }
 export default UserService;
