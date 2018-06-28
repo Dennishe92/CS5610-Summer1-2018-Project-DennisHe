@@ -8,7 +8,7 @@ class SellerProfile extends React.Component {
         this.state = {
             userId: 2,
             seller: {
-                username: 'idiots',
+                username: '',
                 email: '',
                 phone: '',
                 address: ''},
@@ -19,6 +19,7 @@ class SellerProfile extends React.Component {
         this.updateSeller = this.updateSeller.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.emailChanged = this.emailChanged.bind(this);
+        this.phoneChanged = this.phoneChanged.bind(this);
         this.addressChanged = this.addressChanged.bind(this);
         this.renderProductList = this.renderProductList.bind(this);
         this.findUser = this.findUser.bind(this);

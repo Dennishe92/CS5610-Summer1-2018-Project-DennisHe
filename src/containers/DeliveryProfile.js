@@ -8,7 +8,7 @@ class DeliveryProfile extends React.Component {
         this.state = {
             userId: 3,
             delivery: {
-                username: 'batman',
+                username: '',
                 email: '',
                 phone: '',
                 address: ''},
@@ -19,6 +19,7 @@ class DeliveryProfile extends React.Component {
         this.updateDelivery = this.updateDelivery.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.emailChanged = this.emailChanged.bind(this);
+        this.phoneChanged = this.phoneChanged.bind(this);
         this.addressChanged = this.addressChanged.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
@@ -60,7 +61,7 @@ class DeliveryProfile extends React.Component {
     }
 
     phoneChanged(event) {
-        this.setState({delvery: {phone: event.target.value}});
+        this.setState({delivery: {phone: event.target.value}});
     }
 
     addressChanged(event) {

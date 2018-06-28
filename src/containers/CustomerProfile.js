@@ -21,6 +21,7 @@ class CustomerProfile extends React.Component {
         this.updateCustomer = this.updateCustomer.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.emailChanged = this.emailChanged.bind(this);
+        this.phoneChanged = this.phoneChanged.bind(this);
         this.addressChanged = this.addressChanged.bind(this);
         this.renderRecipeList = this.renderRecipeList.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);

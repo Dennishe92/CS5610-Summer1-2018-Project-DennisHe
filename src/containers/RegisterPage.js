@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router';
 
 import UserService from '../services/UserService'
 
@@ -68,6 +69,7 @@ class RegisterPage extends React.Component {
                         alert("Username already exist. please choose another one.")
                     } else {
                         alert("account created successfully! Please go to login page to login.")
+                        this.props.history.push('/login');
                     }
                 })
         }

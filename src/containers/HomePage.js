@@ -16,7 +16,14 @@ class HomePage extends React.Component {
                     alert("Please login first.")
                     this.props.history.push('/login');
                 } else {
-                    this.props.history.push('/grocery');
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to buy groceries")
+                            } else {
+                                this.props.history.push('/grocery');
+                            }
+                        })
                 }
             })
     }
@@ -42,6 +49,18 @@ class HomePage extends React.Component {
             })
     }
 
+    checkLoginForLogout() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You are not logged in");
+                } else {
+                    this.userService.logout()
+                    alert("You successfully logged out")
+                }
+            })
+    }
+
 
     render() {
         return (
@@ -62,6 +81,9 @@ class HomePage extends React.Component {
                                 <a className="nav-link" href="http://localhost:3000/search">Search<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
+                                <a className="nav-link" href="#">My Profile<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
                                 <a className="nav-link" href="#" onClick={() => this.checkLoginForGrocery()}>Groceries<span className="sr-only">(current)</span></a>
                             </li>
                         </ul>
@@ -69,6 +91,9 @@ class HomePage extends React.Component {
                         <ul className="nav navbar-nav">
                             <li className="nav-item active">
                                 <a className="nav-link" href="#" onClick={() => this.checkLoginForLogin()}>Login<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForLogout()}>Logout<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
                                 <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
