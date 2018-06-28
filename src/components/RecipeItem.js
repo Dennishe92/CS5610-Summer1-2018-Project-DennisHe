@@ -17,8 +17,8 @@ class RecipeItem extends React.Component {
     render() {
         return (
             <tr>
-                <td>{this.props.recipe.name}</td>
-                <td>{this.props.recipe.rating}</td>
+                <td>{this.props.recipe.id}</td>
+                <td>{this.props.recipe.apiId}</td>
                 <td><button onClick={() => this.unlikeRecipe()}
                             className="btn btn-danger float-right">Unlike</button></td>
             </tr>

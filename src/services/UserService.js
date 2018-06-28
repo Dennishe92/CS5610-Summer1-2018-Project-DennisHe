@@ -88,7 +88,7 @@ class UserService {
     }
 
     updateUser(userId, user) {
-        return fetch(USER_API_URL + '/' + userId, {
+        return fetch(PROFILE_API_URL + '/' + userId, {
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json'
