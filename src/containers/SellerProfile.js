@@ -1,5 +1,6 @@
 import React from 'react'
 import UserService from "../services/UserService";
+import ProductService from "../services/ProductService";
 import ProductItem from "../components/ProductItem"
 
 class SellerProfile extends React.Component {
@@ -12,15 +13,22 @@ class SellerProfile extends React.Component {
                 email: '',
                 phone: '',
                 address: ''},
-            products:[]
+            products:[],
+            itemName: '',
+            itemPrice: 0
         }
 
         this.sellerProfileService = UserService.instance;
+        this.productService = ProductService.instance;
+
         this.updateSeller = this.updateSeller.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.emailChanged = this.emailChanged.bind(this);
         this.phoneChanged = this.phoneChanged.bind(this);
         this.addressChanged = this.addressChanged.bind(this);
+        this.itemNameChanged = this.itemNameChanged.bind(this);
+        this.itemPriceChanged = this.itemPriceChanged.bind(this);
+
         this.renderProductList = this.renderProductList.bind(this);
         this.findUser = this.findUser.bind(this);
     };
@@ -68,11 +76,38 @@ class SellerProfile extends React.Component {
         this.setState({seller: {address: event.target.value}});
     }
 
+    itemNameChanged(event) {
+        this.setState({address: event.target.value});
+    }
+
+    itemPriceChanged(event) {
+        this.setState({address: event.target.value});
+    }
+
+    createProduct() {
+        var product = {
+            name: this.state.itemName,
+            price: this.state.itemPrice
+        };
+        this.productService.createProduct(this.state.userId, product)
+            .then(() => {
+                this.findUser();
+            })
+    }
+
+    deleteProduct(sellerId, productId) {
+        this.productService.deleteProduct(sellerId, productId)
+            .then(() => {
+                this.findUser();
+            })
+    }
+
     renderProductList() {
         let products = null;
         if (this.state) {
             products = this.state.products.map(
-                (product) => {return <ProductItem key={product.id} product={product}/>}
+                (product) => {return <ProductItem key={product.id} product={product} sellerId={this.state.userId}
+                deleteProduct={this.deleteProduct()}/>}
             )
         }
         return (products);
@@ -134,7 +169,7 @@ class SellerProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Email </label>
                     <div className="col-sm-10">
-                        <input onClick={this.emailChanged}
+                        <input onChange={this.emailChanged}
                                className="form-control wbdv-password-fld"
                                id="passwordFld"
                                value={this.state.seller.email}
@@ -146,7 +181,7 @@ class SellerProfile extends React.Component {
                     <label htmlFor="phoneFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input onClick={this.phoneChanged}
+                        <input onchange={this.phoneChanged}
                                className="form-control wbdv-password-fld"
                                id="phoneFld"
                                value={this.state.seller.phone}
@@ -158,7 +193,7 @@ class SellerProfile extends React.Component {
                     <label htmlFor="addressFld" className="col-sm-2 col-form-label">
                         Address </label>
                     <div className="col-sm-10">
-                        <input onClick={this.addressChanged}
+                        <input onChange={this.addressChanged}
                                className="form-control wbdv-password-fld"
                                id="addressFld"
                                value={this.state.seller.address}
@@ -185,13 +220,21 @@ class SellerProfile extends React.Component {
                 <table className="table">
                     <thead>
                     <tr>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>Rating</th>
-                        <th scope='col'>Url</th>
+                        <th scope='col'>Item</th>
+                        <th scope='col'>Price</th>
+                        <th scope='col'></th>
                     </tr>
                     </thead>
                     <tbody>
                     {this.renderProductList()}
+                    <span className="form-inline">
+                        <input onChange={this.itemNameChanged}
+                               placeholder="Item Name"></input>
+                    <input onChange={this.itemPriceChanged}
+                           placeholder="Price"></input>
+                        <button onClick={() => this.createProduct()}
+                                className="btn btn-success">Add</button>
+                        </span>
                     </tbody>
                 </table>
             </div>

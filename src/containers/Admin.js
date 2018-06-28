@@ -47,9 +47,7 @@ class Admin extends React.Component {
     findAllOrders() {
         this.adminService.findAllOrders()
             .then((orders) => {
-                // console.log(this.state.orders);
                 this.setOrders(orders)
-
             })
     }
 

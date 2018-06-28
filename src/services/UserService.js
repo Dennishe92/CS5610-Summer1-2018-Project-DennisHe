@@ -59,19 +59,25 @@ class UserService {
                 'Content-Type': 'application/json'
             }
         }).then(function(response) {
-                if (response.status === 409 || response.status === 500) {
-                    return null;
-                } else {
-                    return response.json();
-                }
-            })
+            if (response.status === 409 || response.status === 500) {
+                return null;
+            } else {
+                return response.json();
+            }
+        })
     }
 
     logout() {
         return fetch(USER_API_LOGOUT, {
             method: 'post',
             credentials: 'same-origin'
-        });
+        }).then(function(response) {
+            if (response.status === 409 || response.status === 500) {
+                return null;
+            } else {
+                alert("log out unsuccessful")
+            }
+        })
     }
 
     populateProfile() {
@@ -79,12 +85,12 @@ class UserService {
             method: 'get',
             credentials: 'same-origin'
         }).then(function(response) {
-                if (response.status === 409) {
-                    return null;
-                } else {
-                    return response.json();
-                }
-            });
+            if (response.status === 409) {
+                return null;
+            } else {
+                return response.json();
+            }
+        });
     }
 
     updateUser(userId, user) {
@@ -122,8 +128,8 @@ class UserService {
             credentials: 'same-origin'
         })
             .then(function (response) {
-            return response.json();
-        });
+                return response.json();
+            });
     }
 
     findRecipesByCustomer(userId) {
@@ -162,16 +168,20 @@ class UserService {
     findCurrentUser() {
         return fetch(CURRENT_USER_API_URL)
             .then(function(response) {
+                if (response.status === 409 || response.status === 500) {
+                    return null;
+                } else {
                     return response.json();
                 }
-            )
+            })
     }
 
     checkLogin() {
         return fetch(CHECKLOGIN_API_URL)
             .then(function (response) {
-            return response;
-        })
+                console.log(response);
+                return response;
+            })
     }
 
     findAllSellers() {
@@ -191,10 +201,5 @@ class UserService {
             credentials: 'same-origin'
         });
     }
-
-
-
-
-
 }
 export default UserService;

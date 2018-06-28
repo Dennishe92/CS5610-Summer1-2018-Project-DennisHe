@@ -134,7 +134,7 @@ class DeliveryProfile extends React.Component {
                     <label htmlFor="passwordFld" className="col-sm-2 col-form-label">
                         Email </label>
                     <div className="col-sm-10">
-                        <input onClick={this.emailChanged}
+                        <input onChange={this.emailChanged}
                                className="form-control wbdv-password-fld"
                                id="passwordFld"
                                value={this.state.delivery.email}
@@ -146,7 +146,7 @@ class DeliveryProfile extends React.Component {
                     <label htmlFor="phoneFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input onClick={this.phoneChanged}
+                        <input onChange={this.phoneChanged}
                                className="form-control wbdv-password-fld"
                                id="phoneFld"
                                value={this.state.delivery.phone}
@@ -158,7 +158,7 @@ class DeliveryProfile extends React.Component {
                     <label htmlFor="addressFld" className="col-sm-2 col-form-label">
                         Address </label>
                     <div className="col-sm-10">
-                        <input onClick={this.addressChanged}
+                        <input onChange={this.addressChanged}
                                className="form-control wbdv-password-fld"
                                id="addressFld"
                                value={this.state.delivery.address}

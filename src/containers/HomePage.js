@@ -28,15 +28,42 @@ class HomePage extends React.Component {
             })
     }
 
-    checkLoginForLogin() {
+    checkLoginForFollow() {
         this.userService.checkLogin()
             .then((response) => {
                 if (response.status === 409) {
+                    alert("Please login first.")
                     this.props.history.push('/login');
                 } else {
-                    alert("You're already logged in")
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to follow sellers")
+                            } else {
+                                this.props.history.push('/sellerpage');
+                            }
+                        })
                 }
             })
+    }
+
+    checkLoginForLogin() {
+        this.userService.findCurrentUser()
+            .then((user) => {
+                if (user !== null) {
+                    alert("You're already logged in")
+                } else {
+                    this.props.history.push('/login');
+                }
+            })
+        // this.userService.checkLogin()
+        //     .then((response) => {
+        //         if (response.status === 409 || response.status === 200) {
+        //             this.props.history.push('/login');
+        //         } else {
+        //             alert("You're already logged in")
+        //         }
+        //     })
     }
 
     checkLoginForLogout() {
@@ -47,10 +74,8 @@ class HomePage extends React.Component {
                 } else {
                     this.userService.logout()
                         .then((response) => {
-                            if (response.status === 409) {
+                            if (response === null) {
                                 alert("You successfully logged out")
-                            } else {
-                                alert("Logout unsuccessful")
                             }
                         })
 
@@ -62,18 +87,23 @@ class HomePage extends React.Component {
         this.userService.checkLogin()
             .then((response) => {
                 if (response.status === 409) {
-                    alert("You need to login first")
+                    alert("You need to login first");
                     this.props.history.push('/login');
                 }
                 else {
                     this.userService.findCurrentUser()
                         .then((user) => {
+                            if (user === null) {
+                                alert("You need to login first")
+                                this.props.history.push('/login');
+                            }
                             if (user.role === 'Customer') {
                                 this.props.history.push('/customer');
-                            } else if (user.role === 'Seller') {
+                            }
+                            if (user.role === 'Seller') {
                                 this.props.history.push('/seller');
                             }
-                            else {
+                            if (user.role === 'Delivery') {
                                 this.props.history.push('/delivery')
                             }
                         })
@@ -102,6 +132,9 @@ class HomePage extends React.Component {
                             </li>
                             <li className="nav-item active">
                                 <a className="nav-link" href="#" onClick={() => this.checkLoginForProfile()}>Profile<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForFollow()}>FollowSellers<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
                                 <a className="nav-link" href="#" onClick={() => this.checkLoginForGrocery()}>Groceries<span className="sr-only">(current)</span></a>
