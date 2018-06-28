@@ -12,7 +12,6 @@ class SellerPage extends React.Component {
         }
 
         this.setSellers = this.setSellers.bind(this);
-        this.findAllSellers = this.findAllSellers.bind(this);
 
         this.userService = UserService.instance;
     }
@@ -33,13 +32,16 @@ class SellerPage extends React.Component {
     }
 
     renderSellers() {
-        let sellers = this.state.sellers.map((seller) => {
-            return (
-                <SellerRow seller={seller}
-                           key={seller.id}/>
-            )
-        });
-        return sellers;
+        let sellers = null;
+        if (this.state) {
+            sellers = this.state.sellers.map((seller) => {
+                return (
+                    <SellerRow seller={seller}
+                               key={seller.id}/>
+                )
+            });
+        }
+      return (sellers);
     }
 
 

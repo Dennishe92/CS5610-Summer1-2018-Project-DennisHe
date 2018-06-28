@@ -1,6 +1,5 @@
 import React from 'react'
 
-import UserService from '../services/UserService'
 import OrderService from '../services/OrderService'
 
 class GroceryItem extends React.Component {
@@ -9,9 +8,10 @@ class GroceryItem extends React.Component {
 
         this.state = {
             address: ''
-        }
+        };
 
-        this.userService = UserService.instance;
+        this.addressChanged = this.addressChanged.bind(this);
+
         this.orderService = OrderService.instance;
     }
 
@@ -31,7 +31,7 @@ class GroceryItem extends React.Component {
         return (
             <tr>
                 <td>{this.props.grocery.name}</td>
-                <td>{this.props.grocery.sellerName}</td>
+                {/*<td>{this.props.grocery.sellerName}</td>*/}
                 <td>{this.props.grocery.price}</td>
                 <td>
                     <input placeholder="Enter Address"

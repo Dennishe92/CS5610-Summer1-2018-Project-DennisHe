@@ -49,7 +49,7 @@ class GroceryPage extends React.Component {
                     <thead>
                     <tr>
                         <th scope='col'>Item</th>
-                        <th scope='col'>Seller</th>
+                        {/*<th scope='col'>Seller</th>*/}
                         <th scope='col'>Price</th>
                         <th scope='col'>Address</th>
                         <th scope='col'></th>

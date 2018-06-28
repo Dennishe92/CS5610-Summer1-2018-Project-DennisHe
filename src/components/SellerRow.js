@@ -13,7 +13,7 @@ class SellerRow extends React.Component {
 
 
     followSeller() {
-        this.userService.followSeller(this.state.recipe.id);
+        this.userService.followSeller(this.state.seller.id);
     }
 
     render() {
