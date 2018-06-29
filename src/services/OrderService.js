@@ -25,11 +25,11 @@ class OrderService {
 
     deleteOrder(orderId) {
         return fetch(ORDER_API_URL + '/' + orderId, {
-            body: JSON.stringify(orderId),
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'DELETE'
+            method: 'DELETE',
+            credentials: 'same-origin'
         });
     }
 

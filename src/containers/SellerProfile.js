@@ -347,7 +347,7 @@ class SellerProfile extends React.Component {
                     <input onChange={this.itemPriceChanged}
                            className="form-control"
                            placeholder="Price"></input>
-                        <button onClick={() => this.createProduct()}
+                        <button onClick={() => this.createProduct}
                                 className="btn btn-success">Add</button>
                 </span>
             </div>

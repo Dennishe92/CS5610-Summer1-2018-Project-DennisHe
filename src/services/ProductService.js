@@ -30,24 +30,21 @@ class ProductService {
             },
             method: 'POST',
             credentials: 'same-origin'
-        }).then(function(response) {
-            return response.json();
         });
     }
 
     deleteProductBySeller(sellerId, productId) {
         return fetch(DELETEPRODUCT_API_URL.replace('SID', sellerId).replace('PID', productId), {
-            body: JSON.stringify(sellerId, productId),
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'DELETE'
+            method: 'DELETE',
+            credentials: 'same-origin'
         });
     }
 
     deleteProduct(productId) {
         return fetch('http://localhost:8080/api/product' + '/' + productId, {
-            body: JSON.stringify(productId),
             headers: {
                 'Content-Type': 'application/json'
             },
