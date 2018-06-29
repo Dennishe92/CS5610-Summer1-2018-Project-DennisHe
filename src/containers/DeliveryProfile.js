@@ -7,15 +7,14 @@ class DeliveryProfile extends React.Component {
         super(props);
         this.state = {
             userId: 3,
-            delivery: {
-                username: '',
-                email: '',
-                phone: '',
-                address: ''},
+            username: '',
+            email: '',
+            phone: '',
+            address: '',
             orders:[]
         }
 
-        this.deliveryProfileService = UserService.instance;
+        this.userService = UserService.instance;
         this.updateDelivery = this.updateDelivery.bind(this);
         this.usernameChanged = this.usernameChanged.bind(this);
         this.emailChanged = this.emailChanged.bind(this);
@@ -30,16 +29,16 @@ class DeliveryProfile extends React.Component {
     }
 
     findUser() {
-        this.deliveryProfileService.populateProfile()
+        this.userService.populateProfile()
             .then((user) => {
                 this.setState({userId: user.id});
-                this.setState({delivery: {username: user.username}});
-                this.setState({delivery: {email: user.email}});
-                this.setState({delivery: {phone: user.phone}});
-                this.setState({delivery: {address: user.address}});
+                this.setState({username: user.username});
+                this.setState({email: user.email});
+                this.setState({phone: user.phone});
+                this.setState({address: user.address});
             })
             .then(() => {
-                this.deliveryProfileService.findOrdersByDelivery(this.state.userId)
+                this.userService.findOrdersByDelivery(this.state.userId)
                     .then((orders) => {
                         this.setState({orders: orders});
                     })
@@ -47,25 +46,30 @@ class DeliveryProfile extends React.Component {
     }
 
     updateDelivery() {
-        this.deliveryProfileService.updateUser(this.state.userId, this.state.delivery)
+        var delivery = {
+            username: this.state.username,
+            email: this.state.email,
+            phone: this.state.phone,
+            address: this.state.address
+        }
+        this.userService.updateUser(this.state.userId, delivery)
             .then(this.findUser);
     }
 
     usernameChanged(event) {
-        this.setState({delivery: {username: event.target.value}
-        });
+        this.setState({username: event.target.value});
     }
 
     emailChanged(event) {
-        this.setState({delivery: {email: event.target.value}});
+        this.setState({email: event.target.value});
     }
 
     phoneChanged(event) {
-        this.setState({delivery: {phone: event.target.value}});
+        this.setState({phone: event.target.value});
     }
 
     addressChanged(event) {
-        this.setState({delivery: {address: event.target.value}});
+        this.setState({address: event.target.value});
     }
 
     renderOrderList() {
@@ -77,6 +81,102 @@ class DeliveryProfile extends React.Component {
         }
         return (orders);
     }
+
+    checkLoginForGrocery() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.")
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to buy groceries")
+                            } else {
+                                this.props.history.push('/grocery');
+                            }
+                        })
+                }
+            })
+    }
+
+    checkLoginForFollow() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.")
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to follow sellers")
+                            } else {
+                                this.props.history.push('/sellerpage');
+                            }
+                        })
+                }
+            })
+    }
+
+    checkLoginForLogin() {
+        this.userService.findCurrentUser()
+            .then((user) => {
+                if (user !== null) {
+                    alert("You're already logged in")
+                } else {
+                    this.props.history.push('/login');
+                }
+            })
+    }
+
+    checkLoginForLogout() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You are not logged in");
+                } else {
+                    this.userService.logout()
+                        .then((response) => {
+                            if (response === null) {
+                                alert("You successfully logged out")
+                                this.props.history.push('/home');
+                            }
+                        })
+
+                }
+            })
+    }
+
+    checkLoginForProfile() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You need to login first");
+                    this.props.history.push('/login');
+                }
+                else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user === null) {
+                                alert("You need to login first")
+                                this.props.history.push('/login');
+                            }
+                            if (user.role === 'Customer') {
+                                this.props.history.push('/customer');
+                            }
+                            if (user.role === 'Seller') {
+                                this.props.history.push('/seller');
+                            }
+                            if (user.role === 'Delivery') {
+                                this.props.history.push('/delivery')
+                            }
+                        })
+                }
+            })
+    }
+
 
     render() {
         return <div className="container-fluid">
@@ -96,16 +196,22 @@ class DeliveryProfile extends React.Component {
                             <a className="nav-link" href="http://localhost:3000/search">Search<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">My Profile<span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForProfile()}>Profile<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Groceries<span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForFollow()}>FollowSellers<span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForGrocery()}>Groceries<span className="sr-only">(current)</span></a>
                         </li>
                     </ul>
 
                     <ul className="nav navbar-nav">
                         <li className="nav-item active">
-                            <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForLogin()}>Login<span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForLogout()}>Logout<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
                             <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
@@ -125,7 +231,7 @@ class DeliveryProfile extends React.Component {
                         <input onChange={this.usernameChanged}
                                className="form-control"
                                id="usernameFld"
-                               value={this.state.delivery.username}
+                               value={this.state.username}
                                placeholder="username"/>
                     </div>
                 </div>
@@ -137,7 +243,7 @@ class DeliveryProfile extends React.Component {
                         <input onChange={this.emailChanged}
                                className="form-control wbdv-password-fld"
                                id="passwordFld"
-                               value={this.state.delivery.email}
+                               value={this.state.email}
                                placeholder="Email"/>
                     </div>
                 </div>
@@ -149,7 +255,7 @@ class DeliveryProfile extends React.Component {
                         <input onChange={this.phoneChanged}
                                className="form-control wbdv-password-fld"
                                id="phoneFld"
-                               value={this.state.delivery.phone}
+                               value={this.state.phone}
                                placeholder="Phone"/>
                     </div>
                 </div>
@@ -161,7 +267,7 @@ class DeliveryProfile extends React.Component {
                         <input onChange={this.addressChanged}
                                className="form-control wbdv-password-fld"
                                id="addressFld"
-                               value={this.state.delivery.address}
+                               value={this.state.address}
                                placeholder='Address'/>
                     </div>
                 </div>
@@ -185,9 +291,9 @@ class DeliveryProfile extends React.Component {
                 <table className="table">
                     <thead>
                     <tr>
-                        <th scope='col'>Name</th>
-                        <th scope='col'>Rating</th>
-                        <th scope='col'>Url</th>
+                        <th scope='col'>First Name</th>
+                        <th scope='col'>Last Name</th>
+                        <th scope='col'>Delivery Address</th>
                     </tr>
                     </thead>
                     <tbody>

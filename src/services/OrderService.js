@@ -20,8 +20,16 @@ class OrderService {
                 'Content-Type': 'application/json'
             },
             method: 'POST'
-        }).then(function(response){
-            return response.json();
+        });
+    }
+
+    deleteOrder(orderId) {
+        return fetch(ORDER_API_URL + '/' + orderId, {
+            body: JSON.stringify(orderId),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE'
         });
     }
 

@@ -2,6 +2,7 @@ import React from 'react'
 
 import YummlyService from '../services/YummlyService'
 import Recipe from '../components/Recipe'
+import UserService from "../services/UserService";
 
 class ResultPage extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class ResultPage extends React.Component {
         this.setSearch = this.setSearch.bind(this);
 
         this.customerService = YummlyService.instance;
+        this.userService = UserService.instance;
     }
 
     setSearch(search) {
@@ -55,10 +57,106 @@ class ResultPage extends React.Component {
         return recipes;
     }
 
+    checkLoginForGrocery() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.")
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to buy groceries")
+                            } else {
+                                this.props.history.push('/grocery');
+                            }
+                        })
+                }
+            })
+    }
+
+    checkLoginForFollow() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.")
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to follow sellers")
+                            } else {
+                                this.props.history.push('/sellerpage');
+                            }
+                        })
+                }
+            })
+    }
+
+    checkLoginForLogin() {
+        this.userService.findCurrentUser()
+            .then((user) => {
+                if (user !== null) {
+                    alert("You're already logged in")
+                } else {
+                    this.props.history.push('/login');
+                }
+            })
+    }
+
+    checkLoginForLogout() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You are not logged in");
+                } else {
+                    this.userService.logout()
+                        .then((response) => {
+                            if (response === null) {
+                                alert("You successfully logged out")
+                                this.props.history.push('/home');
+                            }
+                        })
+
+                }
+            })
+    }
+
+    checkLoginForProfile() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You need to login first");
+                    this.props.history.push('/login');
+                }
+                else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user === null) {
+                                alert("You need to login first")
+                                this.props.history.push('/login');
+                            }
+                            if (user.role === 'Customer') {
+                                this.props.history.push('/customer');
+                            }
+                            if (user.role === 'Seller') {
+                                this.props.history.push('/seller');
+                            }
+                            if (user.role === 'Delivery') {
+                                this.props.history.push('/delivery')
+                            }
+                        })
+                }
+            })
+    }
+
     render() {
         return (
 
             <div className="container-fluid">
+
 
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
@@ -75,16 +173,22 @@ class ResultPage extends React.Component {
                                 <a className="nav-link" href="http://localhost:3000/search">Search<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">My Profile<span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForProfile()}>Profile<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">Groceries<span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForFollow()}>FollowSellers<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForGrocery()}>Groceries<span className="sr-only">(current)</span></a>
                             </li>
                         </ul>
 
                         <ul className="nav navbar-nav">
                             <li className="nav-item active">
-                                <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForLogin()}>Login<span className="sr-only">(current)</span></a>
+                            </li>
+                            <li className="nav-item active">
+                                <a className="nav-link" href="#" onClick={() => this.checkLoginForLogout()}>Logout<span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item active">
                                 <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>

@@ -24,9 +24,6 @@ class UserService {
         return this[_singleton]
     }
 
-    deleteUser(customerId) {
-
-    }
 
     findAllOrders() {
         return fetch(ORDER_API_URL)
@@ -81,7 +78,7 @@ class UserService {
     }
 
     populateProfile() {
-        return fetch(PROFILE_API_URL, {
+        return fetch('http://localhost:8080/api/user/current', {
             method: 'get',
             credentials: 'same-origin'
         }).then(function(response) {
@@ -94,6 +91,7 @@ class UserService {
     }
 
     updateUser(userId, user) {
+        console.log(user);
         return fetch(PROFILE_API_URL + '/' + userId, {
             body: JSON.stringify(user),
             headers: {
@@ -123,14 +121,14 @@ class UserService {
         })
     }
 
-    findUserById(userId) {
-        return fetch(USER_API_URL + '/' + userId, {
-            credentials: 'same-origin'
-        })
-            .then(function (response) {
-                return response.json();
-            });
-    }
+    // findUserById(userId) {
+    //     return fetch(USER_API_URL + '/' + userId, {
+    //         credentials: 'same-origin'
+    //     })
+    //         .then(function (response) {
+    //             return response.json();
+    //         });
+    // }
 
     findRecipesByCustomer(userId) {
         return fetch(
@@ -158,9 +156,8 @@ class UserService {
     }
 
     findOrdersByDelivery(userId) {
-        return fetch(
-            DELIVERY_API_URL + '/' + userId + '/order'
-        ).then(function (response) {
+        return fetch(DELIVERY_API_URL + '/' + userId + '/order')
+            .then(function (response) {
             return response.json();
         })
     }
@@ -199,9 +196,7 @@ class UserService {
             },
             method: 'post',
             credentials: 'same-origin'
-        }).then(function(response) {
-            return response.json()
-        })
+        });
     }
 }
 export default UserService;

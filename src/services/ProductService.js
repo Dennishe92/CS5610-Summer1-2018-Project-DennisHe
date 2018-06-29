@@ -24,19 +24,30 @@ class ProductService {
 
     createProduct(sellerId, product) {
         return fetch(ADDPRODUCT_API_URL.replace('SID', sellerId), {
-            body: JSON.stringify(sellerId, product),
+            body: JSON.stringify(product),
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'POST'
+            method: 'POST',
+            credentials: 'same-origin'
         }).then(function(response) {
             return response.json();
         });
     }
 
-    deleteProduct(sellerId, productId) {
+    deleteProductBySeller(sellerId, productId) {
         return fetch(DELETEPRODUCT_API_URL.replace('SID', sellerId).replace('PID', productId), {
             body: JSON.stringify(sellerId, productId),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE'
+        });
+    }
+
+    deleteProduct(productId) {
+        return fetch('http://localhost:8080/api/product' + '/' + productId, {
+            body: JSON.stringify(productId),
             headers: {
                 'Content-Type': 'application/json'
             },

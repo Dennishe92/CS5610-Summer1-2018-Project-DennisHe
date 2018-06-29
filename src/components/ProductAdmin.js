@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-class ProductItem extends React.Component {
+class ProductAdmin extends React.Component {
     constructor(props) {
         super(props);
 
@@ -11,14 +11,16 @@ class ProductItem extends React.Component {
     render() {
         return (
             <tr>
+                <td>{this.props.product.id}</td>
+                <td>{this.props.product.seller.username}</td>
                 <td>{this.props.product.name}</td>
                 <td>${this.props.product.price}</td>
                 <td><button className="btn btn-danger"
-                            onClick={() => this.props.deleteProduct(this.props.sellerId, this.props.product.id)}>
+                            onClick={() => this.props.deleteProduct(this.props.product.id)}>
                     Delete
                 </button></td>
             </tr>
         )
     }
 }
-export default ProductItem;
+export default ProductAdmin;

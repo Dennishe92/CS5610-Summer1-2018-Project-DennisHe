@@ -56,14 +56,6 @@ class HomePage extends React.Component {
                     this.props.history.push('/login');
                 }
             })
-        // this.userService.checkLogin()
-        //     .then((response) => {
-        //         if (response.status === 409 || response.status === 200) {
-        //             this.props.history.push('/login');
-        //         } else {
-        //             alert("You're already logged in")
-        //         }
-        //     })
     }
 
     checkLoginForLogout() {
@@ -76,6 +68,7 @@ class HomePage extends React.Component {
                         .then((response) => {
                             if (response === null) {
                                 alert("You successfully logged out")
+                                this.props.history.push('/home');
                             }
                         })
 

@@ -1,9 +1,13 @@
 import React from 'react'
 
 import UserService from "../services/UserService";
-import OrderItem from "../components/OrderItem"
+import OrderService from "../services/OrderService"
+import ProductService from "../services/ProductService"
+
+
+import OrderAdmin from "../components/OrderAdmin"
 import RecipeItem from "../components/RecipeItem"
-import ProductItem from "../components/ProductItem";
+import ProductAdmin from "../components/ProductAdmin";
 
 class Admin extends React.Component {
     constructor(props) {
@@ -24,6 +28,8 @@ class Admin extends React.Component {
         this.renderOrderList = this.renderOrderList.bind(this);
         this.renderProductList = this.renderProductList.bind(this);
         this.adminService = UserService.instance;
+        this.orderService = OrderService.instance;
+        this.productService = ProductService.instance;
     }
 
     setOrders(orders) {
@@ -69,7 +75,9 @@ class Admin extends React.Component {
         let orders = null;
         if (this.state) {
             orders = this.state.orders.map(
-                (order) => {return <OrderItem key={order.id} order={order}/>}
+                (order) => {return <OrderAdmin key={order.id}
+                                               order={order}
+                                               deleteOrder={this.deleteOrder}/>}
             )
         }
         return (orders);
@@ -89,34 +97,39 @@ class Admin extends React.Component {
         let products = null;
         if (this.state) {
             products = this.state.products.map(
-                (product) => {return <ProductItem key={product.id} product={product}/>}
+                (product) => {return <ProductAdmin key={product.id}
+                                                   product={product}
+                                                   deleteProduct={this.deleteProduct}/>}
             )
         }
         return (products);
     }
 
+    deleteOrder(orderId) {
+        this.orderService.deleteOrder(orderId)
+            .then(() => {
+                this.findAllOrders();
+            });
+    }
+
+    deleteProduct(productId) {
+        this.productService.deleteProduct(productId)
+            .then(() => {
+                this.findAllProducts();
+            })
+    }
+
+
+
     render() {
         return (
             <div>
-                <h1>Order List</h1>
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th scope='col'>id</th>
-                        <th scope='col'>address</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderOrderList()}
-                    </tbody>
-                </table>
-
                 <h1>Recipe List</h1>
                 <table className="table">
                     <thead>
                     <tr>
-                        <th scope='col'>id</th>
-                        <th scope='col'>API id</th>
+                        <th scope='col'>Recipe Id</th>
+                        <th scope='col'>API Id</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -124,13 +137,31 @@ class Admin extends React.Component {
                     </tbody>
                 </table>
 
+                <h1>Order List</h1>
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th scope='col'>Order Id</th>
+                        <th scope='col'>First Name</th>
+                        <th scope='col'>Last Name</th>
+                        <th scope='col'>Address</th>
+                        <th scope='col'>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.renderOrderList()}
+                    </tbody>
+                </table>
+
                 <h1>Product List</h1>
                 <table className="table">
                     <thead>
                     <tr>
-                        <th scope='col'>name</th>
-                        <th scope='col'>seller name</th>
-                        <th scope='col'>price</th>
+                        <th scope='col'>Product Id</th>
+                        <th scope='col'>Seller Name</th>
+                        <th scope='col'>Product Name</th>
+                        <th scope='col'>Price</th>
+                        <th scope='col'>Remove</th>
                     </tr>
                     </thead>
                     <tbody>

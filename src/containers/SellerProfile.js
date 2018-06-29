@@ -8,17 +8,18 @@ class SellerProfile extends React.Component {
         super(props);
         this.state = {
             userId: 2,
-            seller: {
-                username: '',
-                email: '',
-                phone: '',
-                address: ''},
+
+            username: '',
+            email: '',
+            phone: '',
+            address: '',
+
             products:[],
             itemName: '',
             itemPrice: 0
         }
 
-        this.sellerProfileService = UserService.instance;
+        this.userService = UserService.instance;
         this.productService = ProductService.instance;
 
         this.updateSeller = this.updateSeller.bind(this);
@@ -26,6 +27,7 @@ class SellerProfile extends React.Component {
         this.emailChanged = this.emailChanged.bind(this);
         this.phoneChanged = this.phoneChanged.bind(this);
         this.addressChanged = this.addressChanged.bind(this);
+
         this.itemNameChanged = this.itemNameChanged.bind(this);
         this.itemPriceChanged = this.itemPriceChanged.bind(this);
 
@@ -38,16 +40,16 @@ class SellerProfile extends React.Component {
     }
 
     findUser() {
-        this.sellerProfileService.populateProfile()
+        this.userService.populateProfile()
             .then((user) => {
                 this.setState({userId: user.id});
-                this.setState({seller: {username: user.username}});
-                this.setState({seller: {email: user.email}});
-                this.setState({seller: {phone: user.phone}});
-                this.setState({seller: {address: user.address}});
+                this.setState({username: user.username});
+                this.setState({email: user.email});
+                this.setState({phone: user.phone});
+                this.setState({address: user.address});
             })
             .then(() => {
-                this.sellerProfileService.findProductsBySeller(this.state.userId)
+                this.userService.findProductsBySeller(this.state.userId)
                     .then((products) => {
                         this.setState({products: products});
                     })
@@ -55,33 +57,40 @@ class SellerProfile extends React.Component {
     }
 
     updateSeller() {
-        this.sellerProfileService.updateUser(this.state.userId, this.state.seller)
+        console.log("here")
+        var seller = {
+            username: this.state.username,
+            email: this.state.email,
+            phone: this.state.phone,
+            address: this.state.address
+        }
+        console.log(seller);
+        this.userService.updateUser(this.state.userId, seller)
             .then(this.findUser);
     }
 
     usernameChanged(event) {
-        this.setState({seller: {username: event.target.value}
-        });
+        this.setState({username: event.target.value});
     }
 
     emailChanged(event) {
-        this.setState({seller: {email: event.target.value}});
+        this.setState({email: event.target.value});
     }
 
     phoneChanged(event) {
-        this.setState({seller: {phone: event.target.value}});
+        this.setState({phone: event.target.value});
     }
 
     addressChanged(event) {
-        this.setState({seller: {address: event.target.value}});
+        this.setState({address: event.target.value});
     }
 
     itemNameChanged(event) {
-        this.setState({address: event.target.value});
+        this.setState({itemName: event.target.value});
     }
 
     itemPriceChanged(event) {
-        this.setState({address: event.target.value});
+        this.setState({itemPrice: event.target.value});
     }
 
     createProduct() {
@@ -96,7 +105,7 @@ class SellerProfile extends React.Component {
     }
 
     deleteProduct(sellerId, productId) {
-        this.productService.deleteProduct(sellerId, productId)
+        this.productService.deleteProductBySeller(sellerId, productId)
             .then(() => {
                 this.findUser();
             })
@@ -107,11 +116,107 @@ class SellerProfile extends React.Component {
         if (this.state) {
             products = this.state.products.map(
                 (product) => {return <ProductItem key={product.id} product={product} sellerId={this.state.userId}
-                deleteProduct={this.deleteProduct()}/>}
+                                                  deleteProduct={this.deleteProduct()}/>}
             )
         }
         return (products);
     }
+
+    checkLoginForGrocery() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.")
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to buy groceries")
+                            } else {
+                                this.props.history.push('/grocery');
+                            }
+                        })
+                }
+            })
+    }
+
+    checkLoginForFollow() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.")
+                    this.props.history.push('/login');
+                } else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user.role !== 'Customer') {
+                                alert("You must be a customer to follow sellers")
+                            } else {
+                                this.props.history.push('/sellerpage');
+                            }
+                        })
+                }
+            })
+    }
+
+    checkLoginForLogin() {
+        this.userService.findCurrentUser()
+            .then((user) => {
+                if (user !== null) {
+                    alert("You're already logged in")
+                } else {
+                    this.props.history.push('/login');
+                }
+            })
+    }
+
+    checkLoginForLogout() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You are not logged in");
+                } else {
+                    this.userService.logout()
+                        .then((response) => {
+                            if (response === null) {
+                                alert("You successfully logged out")
+                                this.props.history.push('/home');
+                            }
+                        })
+
+                }
+            })
+    }
+
+    checkLoginForProfile() {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("You need to login first");
+                    this.props.history.push('/login');
+                }
+                else {
+                    this.userService.findCurrentUser()
+                        .then((user) => {
+                            if (user === null) {
+                                alert("You need to login first")
+                                this.props.history.push('/login');
+                            }
+                            if (user.role === 'Customer') {
+                                this.props.history.push('/customer');
+                            }
+                            if (user.role === 'Seller') {
+                                this.props.history.push('/seller');
+                            }
+                            if (user.role === 'Delivery') {
+                                this.props.history.push('/delivery')
+                            }
+                        })
+                }
+            })
+    }
+
 
     render() {
         return <div className="container-fluid">
@@ -131,16 +236,22 @@ class SellerProfile extends React.Component {
                             <a className="nav-link" href="http://localhost:3000/search">Search<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">My Profile<span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForProfile()}>Profile<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Groceries<span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForFollow()}>FollowSellers<span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForGrocery()}>Groceries<span className="sr-only">(current)</span></a>
                         </li>
                     </ul>
 
                     <ul className="nav navbar-nav">
                         <li className="nav-item active">
-                            <a className="nav-link" href="http://localhost:3000/login">Login<span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForLogin()}>Login<span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#" onClick={() => this.checkLoginForLogout()}>Logout<span className="sr-only">(current)</span></a>
                         </li>
                         <li className="nav-item active">
                             <a className="nav-link" href="http://localhost:3000/register">Register<span className="sr-only">(current)</span></a>
@@ -160,7 +271,7 @@ class SellerProfile extends React.Component {
                         <input onChange={this.usernameChanged}
                                className="form-control"
                                id="usernameFld"
-                               value={this.state.seller.username}
+                               value={this.state.username}
                                placeholder="username"/>
                     </div>
                 </div>
@@ -172,7 +283,7 @@ class SellerProfile extends React.Component {
                         <input onChange={this.emailChanged}
                                className="form-control wbdv-password-fld"
                                id="passwordFld"
-                               value={this.state.seller.email}
+                               value={this.state.email}
                                placeholder="Email"/>
                     </div>
                 </div>
@@ -181,10 +292,10 @@ class SellerProfile extends React.Component {
                     <label htmlFor="phoneFld" className="col-sm-2 col-form-label">
                         Phone </label>
                     <div className="col-sm-10">
-                        <input onchange={this.phoneChanged}
+                        <input onChange={this.phoneChanged}
                                className="form-control wbdv-password-fld"
                                id="phoneFld"
-                               value={this.state.seller.phone}
+                               value={this.state.phone}
                                placeholder="Phone"/>
                     </div>
                 </div>
@@ -196,7 +307,7 @@ class SellerProfile extends React.Component {
                         <input onChange={this.addressChanged}
                                className="form-control wbdv-password-fld"
                                id="addressFld"
-                               value={this.state.seller.address}
+                               value={this.state.address}
                                placeholder='Address'/>
                     </div>
                 </div>
@@ -227,16 +338,18 @@ class SellerProfile extends React.Component {
                     </thead>
                     <tbody>
                     {this.renderProductList()}
-                    <span className="form-inline">
+                    </tbody>
+                </table>
+                <span className="form-inline">
                         <input onChange={this.itemNameChanged}
+                               className="form-control"
                                placeholder="Item Name"></input>
                     <input onChange={this.itemPriceChanged}
+                           className="form-control"
                            placeholder="Price"></input>
                         <button onClick={() => this.createProduct()}
                                 className="btn btn-success">Add</button>
-                        </span>
-                    </tbody>
-                </table>
+                </span>
             </div>
         </div>
     }
