@@ -15,6 +15,7 @@ class GroceryItem extends React.Component {
         this.firstNameChanged = this.firstNameChanged.bind(this);
         this.lastNameChanged = this.lastNameChanged.bind(this);
         this.addressChanged = this.addressChanged.bind(this);
+        this.createOrder = this.createOrder.bind(this);
 
         this.orderService = OrderService.instance;
     }
@@ -39,7 +40,7 @@ class GroceryItem extends React.Component {
         };
         console.log(order);
         this.orderService.createOrder(order)
-            .then(alert("orderPlaced"))
+            .then(alert("Order Placed"))
         window.location.reload();
     }
 
@@ -50,18 +51,18 @@ class GroceryItem extends React.Component {
                 <td>{this.props.grocery.name}</td>
                 {/*<td>{this.props.grocery.sellerName}</td>*/}
                 <td>{this.props.grocery.price}</td>
-                <td>
-                    <input placeholder="Enter First Name"
-                           onChange={this.firstNameChanged}>
+                {/*<td>*/}
+                    {/*<input placeholder="Enter First Name"*/}
+                           {/*onChange={this.firstNameChanged}>*/}
 
-                    </input>
-                </td>
-                <td>
-                    <input placeholder="Enter Last Name"
-                           onChange={this.lastNameChanged}>
+                    {/*</input>*/}
+                {/*</td>*/}
+                {/*<td>*/}
+                    {/*<input placeholder="Enter Last Name"*/}
+                           {/*onChange={this.lastNameChanged}>*/}
 
-                    </input>
-                </td>
+                    {/*</input>*/}
+                {/*</td>*/}
                 <td>
                     <input placeholder="Enter Address"
                            onChange={this.addressChanged}>

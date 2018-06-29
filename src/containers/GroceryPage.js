@@ -188,10 +188,9 @@ class GroceryPage extends React.Component {
                     <thead>
                     <tr>
                         <th scope='col'>Item</th>
-                        {/*<th scope='col'>Seller</th>*/}
                         <th scope='col'>Price</th>
-                        <th scope='col'>First Name</th>
-                        <th scope='col'>Last Name</th>
+                        {/*<th scope='col'>First Name</th>*/}
+                        {/*<th scope='col'>Last Name</th>*/}
                         <th scope='col'>Address</th>
                         <th scope='col'>Place Order</th>
                     </tr>

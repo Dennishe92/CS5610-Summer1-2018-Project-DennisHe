@@ -6,7 +6,7 @@ import ProductService from "../services/ProductService"
 
 
 import OrderAdmin from "../components/OrderAdmin"
-import RecipeItem from "../components/RecipeItem"
+import RecipeAdmin from "../components/RecipeAdmin"
 import ProductAdmin from "../components/ProductAdmin";
 
 class Admin extends React.Component {
@@ -27,6 +27,9 @@ class Admin extends React.Component {
         this.findAllRecipes = this.findAllRecipes.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.renderProductList = this.renderProductList.bind(this);
+        this.deleteOrder = this.deleteOrder.bind(this);
+        this.deleteProduct = this.deleteProduct.bind(this);
+
         this.adminService = UserService.instance;
         this.orderService = OrderService.instance;
         this.productService = ProductService.instance;
@@ -87,7 +90,7 @@ class Admin extends React.Component {
         let recipes = null;
         if (this.state) {
             recipes = this.state.recipes.map(
-                (recipe) => {return <RecipeItem key={recipe.id} recipe={recipe}/>}
+                (recipe) => {return <RecipeAdmin key={recipe.id} recipe={recipe}/>}
             )
         }
         return (recipes);
@@ -109,13 +112,17 @@ class Admin extends React.Component {
         this.orderService.deleteOrder(orderId)
             .then(() => {
                 this.findAllOrders();
+                this.findAllProducts();
+                this.findAllRecipes();
             });
     }
 
     deleteProduct(productId) {
         this.productService.deleteProduct(productId)
             .then(() => {
+                this.findAllOrders();
                 this.findAllProducts();
+                this.findAllRecipes();
             })
     }
 

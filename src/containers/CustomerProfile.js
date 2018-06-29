@@ -8,6 +8,8 @@ class CustomerProfile extends React.Component {
         super(props);
         this.state = {
             userId: 1,
+
+            followedSellerId: 0,
             followedSeller: '',
 
             username: '',
@@ -28,6 +30,7 @@ class CustomerProfile extends React.Component {
         this.renderRecipeList = this.renderRecipeList.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
+        this.unfollowSeller = this.unfollowSeller.bind(this);
     };
 
     componentDidMount() {
@@ -38,7 +41,8 @@ class CustomerProfile extends React.Component {
         this.userService.populateProfile()
             .then((user) => {
                 this.setState({userId: user.id});
-                this.setState({followedSeller: user.seller});
+                this.setState({followedSeller: user.followedSeller.id});
+                this.setState({followedSeller: user.followedSeller.username});
                 this.setState({username: user.username});
                 this.setState({email: user.email});
                 this.setState({phone: user.phone});
@@ -103,6 +107,16 @@ class CustomerProfile extends React.Component {
             )
         }
         return (orders);
+    }
+
+    unfollowSeller() {
+        console.log("here")
+        console.log(this.state.userId)
+        console.log(this.state.followedSellerId)
+        this.userService.unfollowSeller(this.state.userId, this.state.followedSellerId)
+            .then(() => {
+                this.findUser();
+            })
     }
 
     checkLoginForGrocery() {
@@ -325,6 +339,8 @@ class CustomerProfile extends React.Component {
                 </table>
             </div>
 
+            <br/>
+
             <div>
                 <h1>My Orders</h1>
                 <table className="table">
@@ -341,8 +357,12 @@ class CustomerProfile extends React.Component {
                 </table>
             </div>
 
-            <div>
-                <h1>Im Following: {this.state.followedSeller}</h1>
+            <br/>
+
+            <div className="form-inline">
+                <h1>Following Seller:   {this.state.followedSeller}</h1>
+                {/*<button className="btn btn-danger"*/}
+                        {/*onClick={() => this.unfollowSeller()}>Unfollow</button>*/}
             </div>
         </div>
     }

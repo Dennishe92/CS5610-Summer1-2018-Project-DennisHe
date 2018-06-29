@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import CustomerService from '../services/CustomerService'
 
-class RecipeItem extends React.Component {
+class RecipeAdmin extends React.Component {
     constructor(props) {
         super(props);
 
@@ -21,10 +21,8 @@ class RecipeItem extends React.Component {
             <tr>
                 <td>{this.props.recipe.id}</td>
                 <td><Link to={`/details/${this.props.recipe.apiId}`}><button className="btn btn-info">Review</button></Link></td>
-                <td><button onClick={() => this.unlikeRecipe()}
-                            className="btn btn-danger float-right">Unlike</button></td>
             </tr>
         )
     }
 }
-export default RecipeItem;
+export default RecipeAdmin;

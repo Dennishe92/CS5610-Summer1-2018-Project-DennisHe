@@ -33,6 +33,8 @@ class SellerProfile extends React.Component {
 
         this.renderProductList = this.renderProductList.bind(this);
         this.findUser = this.findUser.bind(this);
+        this.deleteProduct = this.deleteProduct.bind(this);
+        this.createProduct = this.createProduct.bind(this);
     };
 
     componentDidMount() {
@@ -116,7 +118,7 @@ class SellerProfile extends React.Component {
         if (this.state) {
             products = this.state.products.map(
                 (product) => {return <ProductItem key={product.id} product={product} sellerId={this.state.userId}
-                                                  deleteProduct={this.deleteProduct()}/>}
+                                                  deleteProduct={this.deleteProduct}/>}
             )
         }
         return (products);
@@ -347,7 +349,7 @@ class SellerProfile extends React.Component {
                     <input onChange={this.itemPriceChanged}
                            className="form-control"
                            placeholder="Price"></input>
-                        <button onClick={() => this.createProduct}
+                        <button onClick={() => this.createProduct()}
                                 className="btn btn-success">Add</button>
                 </span>
             </div>

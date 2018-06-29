@@ -1,4 +1,5 @@
-const ORDER_API_URL = 'http://localhost:8080/api/order';
+const ORDER_API_URL = 'http://localhost:8080/api/customer/order';
+const DELETE_ORDER_API_URL = 'http://localhost:8080/api/order';
 
 let _singleton = Symbol();
 class OrderService {
@@ -19,12 +20,13 @@ class OrderService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            method: 'POST'
+            method: 'POST',
+            credentials: 'same-origin'
         });
     }
 
     deleteOrder(orderId) {
-        return fetch(ORDER_API_URL + '/' + orderId, {
+        return fetch(DELETE_ORDER_API_URL + '/' + orderId, {
             headers: {
                 'Content-Type': 'application/json'
             },

@@ -14,7 +14,7 @@ class RegisterPage extends React.Component {
             firstName: 'default',
             lastName: 'default',
             verifyPassword: 'default',
-            userType: 'default'
+            userType: 'Customer'
         }
 
         this.userTypeChanged = this.userTypeChanged.bind(this);
@@ -68,7 +68,7 @@ class RegisterPage extends React.Component {
                     if (response === null) {
                         alert("Username already exist. please choose another one.")
                     } else {
-                        alert("account created successfully! Please go to login page to login.")
+                        alert("Account created successfully!")
                         this.props.history.push('/login');
                     }
                 })

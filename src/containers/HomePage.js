@@ -12,7 +12,7 @@ class HomePage extends React.Component {
     checkLoginForGrocery() {
         this.userService.checkLogin()
             .then((response) => {
-                if (response.status === 409) {
+                if (response.status === 409 || response.status === 500) {
                     alert("Please login first.")
                     this.props.history.push('/login');
                 } else {
@@ -31,7 +31,7 @@ class HomePage extends React.Component {
     checkLoginForFollow() {
         this.userService.checkLogin()
             .then((response) => {
-                if (response.status === 409) {
+                if (response.status === 409 || response.status === 500) {
                     alert("Please login first.")
                     this.props.history.push('/login');
                 } else {
@@ -61,7 +61,7 @@ class HomePage extends React.Component {
     checkLoginForLogout() {
         this.userService.checkLogin()
             .then((response) => {
-                if (response.status === 409) {
+                if (response.status === 409 || response.status === 500) {
                     alert("You are not logged in");
                 } else {
                     this.userService.logout()
@@ -79,7 +79,7 @@ class HomePage extends React.Component {
     checkLoginForProfile() {
         this.userService.checkLogin()
             .then((response) => {
-                if (response.status === 409) {
+                if (response.status === 409 || response.status === 500) {
                     alert("You need to login first");
                     this.props.history.push('/login');
                 }

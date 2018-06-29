@@ -12,7 +12,7 @@ class ProductAdmin extends React.Component {
         return (
             <tr>
                 <td>{this.props.product.id}</td>
-                <td>{this.props.product.seller.username}</td>
+                <td>{this.props.product.sellerName}</td>
                 <td>{this.props.product.name}</td>
                 <td>${this.props.product.price}</td>
                 <td><button className="btn btn-danger"

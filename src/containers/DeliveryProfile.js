@@ -38,7 +38,7 @@ class DeliveryProfile extends React.Component {
                 this.setState({address: user.address});
             })
             .then(() => {
-                this.userService.findOrdersByDelivery(this.state.userId)
+                this.userService.findAllOrders()
                     .then((orders) => {
                         this.setState({orders: orders});
                     })
