@@ -1,60 +1,21 @@
 import React from 'react'
 
-import YummlyService from '../services/YummlyService'
-import Recipe from '../components/Recipe'
+import { Link } from 'react-router-dom'
 import UserService from "../services/UserService";
 
-class ResultPage extends React.Component {
+class SearchPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: '',
-            recipes: [],
+            search: ''
         }
 
-        this.setRecipes = this.setRecipes.bind(this);
-        this.setSearch = this.setSearch.bind(this);
-
-        this.customerService = YummlyService.instance;
         this.userService = UserService.instance;
-    }
+        this.searchChanged = this.searchChanged.bind(this);
+    };
 
-    setSearch(search) {
-        this.setState({search: search})
-    }
-
-    setRecipes(recipes) {
-        this.setState({recipes: recipes})
-    }
-
-    componentDidMount() {
-        this.setSearch(this.props.match.params.search);
-        this.findRecipe(this.props.match.params.search);
-    }
-
-    // componentWillReceiveProps(newProps) {
-    //     this.setSearch(newProps.match.params.search);
-    //     this.findRecipe(newProps.match.params.search);
-    // }
-
-    findRecipe(recipeName) {
-        this.customerService.findRecipe(recipeName)
-            .then((recipes) => {
-                this.setRecipes(recipes)
-            });
-    }
-
-    renderListOfRecipes() {
-        let recipes = this.state.recipes.map((recipe) => {
-                return (
-                    <div className="col-sm-3">
-                        <Recipe recipe={recipe}
-                                key={recipe.id}
-                                search={this.state.search}/>
-                    </div>
-                )
-            });
-        return recipes;
+    searchChanged(event) {
+        this.setState({search: event.target.value})
     }
 
     checkLoginForGrocery() {
@@ -154,7 +115,6 @@ class ResultPage extends React.Component {
 
     render() {
         return (
-
             <div className="container-fluid">
 
 
@@ -198,14 +158,31 @@ class ResultPage extends React.Component {
                 </nav>
 
                 <br/>
+                <br/>
 
 
-                <div className="row">
-                    {this.renderListOfRecipes()}
+                <div className="col-sm-6 form-group-lg">
+                    <form className="form-group my-2 my-lg-0">
+                        <input className="form-control mr-lg-2"
+                               onChange = {this.searchChanged}
+                               type="search"
+                               placeholder="Search"
+                               aria-label="Search">
+                        </input>
+
+                        <Link to={`/results/${this.state.search}`}>
+                            <button
+                                className="btn btn-outline-success my-2 my-sm-0"
+                                type="button">
+                                Search
+                            </button>
+                        </Link>
+
+                    </form>
                 </div>
 
             </div>
         )
     }
 }
-export default ResultPage;
+export default SearchPage;

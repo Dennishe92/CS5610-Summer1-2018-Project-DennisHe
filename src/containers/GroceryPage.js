@@ -1,60 +1,44 @@
 import React from 'react'
 
-import YummlyService from '../services/YummlyService'
-import Recipe from '../components/Recipe'
+import GroceryItem from '../components/GroceryItem'
+import ProductService from '../services/ProductService'
 import UserService from "../services/UserService";
 
-class ResultPage extends React.Component {
+class GroceryPage extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
+
         this.state = {
-            search: '',
-            recipes: [],
+            groceries: []
         }
 
-        this.setRecipes = this.setRecipes.bind(this);
-        this.setSearch = this.setSearch.bind(this);
-
-        this.customerService = YummlyService.instance;
         this.userService = UserService.instance;
-    }
-
-    setSearch(search) {
-        this.setState({search: search})
-    }
-
-    setRecipes(recipes) {
-        this.setState({recipes: recipes})
+        this.productService = ProductService.instance;
     }
 
     componentDidMount() {
-        this.setSearch(this.props.match.params.search);
-        this.findRecipe(this.props.match.params.search);
+        this.findAllGroceries();
     }
 
-    // componentWillReceiveProps(newProps) {
-    //     this.setSearch(newProps.match.params.search);
-    //     this.findRecipe(newProps.match.params.search);
-    // }
-
-    findRecipe(recipeName) {
-        this.customerService.findRecipe(recipeName)
-            .then((recipes) => {
-                this.setRecipes(recipes)
-            });
+    setGroceryList(groceries) {
+        this.setState({groceries: groceries})
     }
 
-    renderListOfRecipes() {
-        let recipes = this.state.recipes.map((recipe) => {
-                return (
-                    <div className="col-sm-3">
-                        <Recipe recipe={recipe}
-                                key={recipe.id}
-                                search={this.state.search}/>
-                    </div>
-                )
-            });
-        return recipes;
+    findAllGroceries() {
+        this.productService.findAllGroceries()
+            .then((groceries) => {
+                this.setGroceryList(groceries)
+            })
+    }
+
+    renderGroceries() {
+        let groceries = this.state.groceries.map((grocery) => {
+            return (
+                <GroceryItem grocery={grocery}
+                             key={grocery.id}/>
+            )
+        });
+        return groceries;
     }
 
     checkLoginForGrocery() {
@@ -152,11 +136,11 @@ class ResultPage extends React.Component {
             })
     }
 
+
     render() {
         return (
 
             <div className="container-fluid">
-
 
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
@@ -199,13 +183,25 @@ class ResultPage extends React.Component {
 
                 <br/>
 
-
-                <div className="row">
-                    {this.renderListOfRecipes()}
-                </div>
-
+                <h1>Groceries</h1>
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th scope='col'>Item</th>
+                        <th scope='col'>Price</th>
+                        {/*<th scope='col'>First Name</th>*/}
+                        {/*<th scope='col'>Last Name</th>*/}
+                        <th scope='col'>Address</th>
+                        <th scope='col'>Place Order</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.renderGroceries()}
+                    </tbody>
+                </table>
             </div>
+
         )
     }
 }
-export default ResultPage;
+export default GroceryPage;

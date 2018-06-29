@@ -1,60 +1,55 @@
 import React from 'react'
 
-import YummlyService from '../services/YummlyService'
-import Recipe from '../components/Recipe'
-import UserService from "../services/UserService";
+import SellerRow from '../components/SellerRow'
+import UserService from '../services/UserService'
 
-class ResultPage extends React.Component {
+class SellerPage extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            search: '',
-            recipes: [],
+            sellers: []
         }
 
-        this.setRecipes = this.setRecipes.bind(this);
-        this.setSearch = this.setSearch.bind(this);
+        this.setSellers = this.setSellers.bind(this);
+        this.findAllSellers = this.findAllSellers.bind(this);
+        this.followSeller = this.followSeller.bind(this);
 
-        this.customerService = YummlyService.instance;
         this.userService = UserService.instance;
     }
 
-    setSearch(search) {
-        this.setState({search: search})
-    }
-
-    setRecipes(recipes) {
-        this.setState({recipes: recipes})
+    setSellers(sellers) {
+        this.setState({sellers: sellers})
     }
 
     componentDidMount() {
-        this.setSearch(this.props.match.params.search);
-        this.findRecipe(this.props.match.params.search);
+        this.findAllSellers()
     }
 
-    // componentWillReceiveProps(newProps) {
-    //     this.setSearch(newProps.match.params.search);
-    //     this.findRecipe(newProps.match.params.search);
-    // }
-
-    findRecipe(recipeName) {
-        this.customerService.findRecipe(recipeName)
-            .then((recipes) => {
-                this.setRecipes(recipes)
-            });
+    findAllSellers() {
+        this.userService.findAllSellers()
+            .then((sellers) => {
+                this.setSellers(sellers)
+            })
     }
 
-    renderListOfRecipes() {
-        let recipes = this.state.recipes.map((recipe) => {
+    followSeller(sellerId) {
+        this.userService.followSeller(sellerId)
+            .then(alert("Followed!"))
+    }
+
+    renderSellers() {
+        let sellers = null;
+        if (this.state) {
+            sellers = this.state.sellers.map((seller) => {
                 return (
-                    <div className="col-sm-3">
-                        <Recipe recipe={recipe}
-                                key={recipe.id}
-                                search={this.state.search}/>
-                    </div>
+                    <SellerRow seller={seller}
+                               followSeller={this.followSeller}
+                               key={seller.id}/>
                 )
             });
-        return recipes;
+        }
+      return (sellers);
     }
 
     checkLoginForGrocery() {
@@ -154,10 +149,7 @@ class ResultPage extends React.Component {
 
     render() {
         return (
-
             <div className="container-fluid">
-
-
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
                     <button type="button"
@@ -198,14 +190,24 @@ class ResultPage extends React.Component {
                 </nav>
 
                 <br/>
+                <br/>
 
-
-                <div className="row">
-                    {this.renderListOfRecipes()}
-                </div>
-
+                <h1>Sellers</h1>
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th scope='col'>Seller Name</th>
+                        <th scope='col'></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.renderSellers()}
+                    </tbody>
+                </table>
             </div>
+
         )
     }
+
 }
-export default ResultPage;
+export default SellerPage;

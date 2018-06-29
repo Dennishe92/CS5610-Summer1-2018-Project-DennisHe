@@ -1,7 +1,8 @@
 import React from 'react'
 
-const YUMMLY_URL = 'http://api.yummly.com/v1/api/recipes?_app_id=a0d23074' +
-    '&_app_key=f12a9990ff4909c04c80d5ed84a0e6b6&q=searchInput&requirePictures=true'
+const LIKE_API_URL = 'http://localhost:8080/api/customer/like/recipe';
+const UNLIKE_API_URL = 'http://localhost:8080/api/customer/CID/recipe/RID';
+const FIND_ALL_GROCERIES = 'http://localhost:8080/api/groceries';
 
 let _singleton = Symbol();
 class CustomerService {
@@ -9,24 +10,38 @@ class CustomerService {
         if (_singleton !== singletonToken)
             throw new Error('Cannot instantiate directly.');
     }
-
     static get instance() {
-        if (!this[_singleton])
+        if(!this[_singleton])
             this[_singleton] = new CustomerService(_singleton);
         return this[_singleton]
     }
 
-    findRecipe(recipeName) {
-        // console.log(recipeName);
-
-        return fetch (YUMMLY_URL.replace('searchInput', encodeURIComponent(recipeName)))
-            .then(function(response) {
-               return response.json();})
-            .then(function(data){
-                return data.matches.slice(0,10)
-            });
+    likeRecipe(recipeId) {
+        return fetch (LIKE_API_URL + '/' + recipeId, {
+            body: JSON.stringify(recipeId),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            method: 'post',
+            credentials: 'same-origin'
+        });
     }
 
+    unlikeRecipe(userId, recipeId) {
+        return fetch (UNLIKE_API_URL.replace('CID', userId).replace('RID', recipeId), {
+            body: JSON.stringify(userId, recipeId),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE'
+        });
+    }
 
+    findAllGroceries() {
+        return fetch(FIND_ALL_GROCERIES)
+            .then(function (response) {
+            return response.json();
+        });
+    }
 }
 export default CustomerService;

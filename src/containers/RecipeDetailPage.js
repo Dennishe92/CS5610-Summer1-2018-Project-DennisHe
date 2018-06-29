@@ -1,21 +1,29 @@
-import React from 'react'
+import React from'react'
 
-import YummlyService from '../services/YummlyService'
-import Recipe from '../components/Recipe'
-import UserService from "../services/UserService";
+import YummlyService from "../services/YummlyService";
+import CustomerService from "../services/CustomerService";
+import UserService from '../services/UserService';
 
-class ResultPage extends React.Component {
+
+class RecipeDetailPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             search: '',
-            recipes: [],
+            recipeId: '',
+            recipe: {},
+            ingredients: [],
+            image: {}
         }
 
-        this.setRecipes = this.setRecipes.bind(this);
         this.setSearch = this.setSearch.bind(this);
+        this.setRecipeId = this.setRecipeId.bind(this);
+        this.setRecipe = this.setRecipe.bind(this);
+        this.setIngredients = this.setIngredients.bind(this);
+        this.setImage = this.setImage.bind(this);
 
-        this.customerService = YummlyService.instance;
+        this.yummlyService = YummlyService.instance;
+        this.customerService = CustomerService.instance;
         this.userService = UserService.instance;
     }
 
@@ -23,38 +31,63 @@ class ResultPage extends React.Component {
         this.setState({search: search})
     }
 
-    setRecipes(recipes) {
-        this.setState({recipes: recipes})
+    setRecipeId(recipeId) {
+        this.setState({recipeId: recipeId})
+    }
+
+    setRecipe(recipe) {
+        this.setState({recipe: recipe});
+    }
+
+    setIngredients(ingredients) {
+        this.setState({ingredients: ingredients});
+    }
+
+    setImage(image) {
+        this.setState({image: image})
     }
 
     componentDidMount() {
         this.setSearch(this.props.match.params.search);
-        this.findRecipe(this.props.match.params.search);
+        this.setRecipeId(this.props.match.params.recipeId);
+        this.findRecipeById(this.props.match.params.recipeId);
     }
 
-    // componentWillReceiveProps(newProps) {
-    //     this.setSearch(newProps.match.params.search);
-    //     this.findRecipe(newProps.match.params.search);
-    // }
+    componentWillReceiveProps(newProps){
+        this.setRecipeId(newProps.match.params.recipeId);
+        this.findRecipeById(newProps.match.params.recipeId);
+    }
 
-    findRecipe(recipeName) {
-        this.customerService.findRecipe(recipeName)
-            .then((recipes) => {
-                this.setRecipes(recipes)
+    findRecipeById(recipeId) {
+        this.yummlyService.findRecipeById(recipeId)
+            .then((recipe) => {
+                this.setRecipe(recipe);
+                this.setIngredients(recipe.ingredientLines);
+                this.setImage(recipe.images[0].hostedLargeUrl);
             });
     }
 
-    renderListOfRecipes() {
-        let recipes = this.state.recipes.map((recipe) => {
-                return (
-                    <div className="col-sm-3">
-                        <Recipe recipe={recipe}
-                                key={recipe.id}
-                                search={this.state.search}/>
-                    </div>
-                )
-            });
-        return recipes;
+    renderIngredients() {
+        console.log(this.state.image);
+        let ingredients = null;
+        if (this.state) {
+            ingredients = this.state.ingredients.map((ingredient) => {
+                return<li>{ingredient}</li>
+            })
+        }
+        return (ingredients);
+    }
+
+    likeRecipe(recipeId) {
+        this.userService.checkLogin()
+            .then((response) => {
+                if (response.status === 409) {
+                    alert("Please login first.");
+                } else {
+                    this.customerService.likeRecipe(recipeId)
+                        .then(alert("success"));
+                }
+            })
     }
 
     checkLoginForGrocery() {
@@ -154,9 +187,7 @@ class ResultPage extends React.Component {
 
     render() {
         return (
-
             <div className="container-fluid">
-
 
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <a className="navbar-brand" href="http://localhost:3000/home">CookMi</a>
@@ -197,15 +228,28 @@ class ResultPage extends React.Component {
                     </div>
                 </nav>
 
+                <span className="form-inline">
+                    <h1 className="mr-auto">{this.state.recipe.name}</h1>
+                </span>
+
+                <span className="form-inline">
+                <img className="mr-5" src={this.state.image}></img>
+                <button className="btn btn-success"
+                        onClick={() => this.likeRecipe(this.state.recipe.id)}>
+                    Like
+                </button>
+            </span>
+
+                {/*<h4><strong>Cook Time:</strong> {this.state.recipe.cookTime}</h4>*/}
+
                 <br/>
 
-
-                <div className="row">
-                    {this.renderListOfRecipes()}
-                </div>
+                <ul>
+                    {this.renderIngredients()}
+                </ul>
 
             </div>
         )
     }
 }
-export default ResultPage;
+export default RecipeDetailPage;
