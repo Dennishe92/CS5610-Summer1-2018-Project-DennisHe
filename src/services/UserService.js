@@ -25,6 +25,24 @@ class UserService {
         return this[_singleton]
     }
 
+    findAllUsers() {
+        return fetch('http://localhost:8080/api/users')
+            .then(function(response) {
+                return response.json();
+            })
+    }
+
+    deleteUser(userId) {
+        return fetch('http://localhost:8080/api/user' + '/' + userId,
+            {
+                method: 'delete',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+    }
 
     findAllOrders() {
         return fetch(ORDER_API_URL)

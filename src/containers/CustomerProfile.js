@@ -9,8 +9,9 @@ class CustomerProfile extends React.Component {
         this.state = {
             userId: 1,
 
-            followedSellerId: 0,
-            followedSeller: '',
+            // followedSellerId: 0,
+            // followedSeller: '',
+            followedSellerName: '',
 
             username: '',
             email: '',
@@ -30,6 +31,7 @@ class CustomerProfile extends React.Component {
         this.renderRecipeList = this.renderRecipeList.bind(this);
         this.renderOrderList = this.renderOrderList.bind(this);
         this.findUser = this.findUser.bind(this);
+
         this.unfollowSeller = this.unfollowSeller.bind(this);
     };
 
@@ -41,8 +43,12 @@ class CustomerProfile extends React.Component {
         this.userService.populateProfile()
             .then((user) => {
                 this.setState({userId: user.id});
-                this.setState({followedSeller: user.followedSeller.id});
-                this.setState({followedSeller: user.followedSeller.username});
+
+
+                this.setState({followedSellerName: user.followedSellerName});
+
+                // this.setState({followedSeller: user.followedSeller.id});
+                // this.setState({followedSeller: user.followedSeller.username});
                 this.setState({username: user.username});
                 this.setState({email: user.email});
                 this.setState({phone: user.phone});
@@ -67,7 +73,8 @@ class CustomerProfile extends React.Component {
             username: this.state.username,
             email: this.state.email,
             phone: this.state.phone,
-            address: this.state.address
+            address: this.state.address,
+            followedSellerName: this.state.followedSellerName
         }
         this.userService.updateUser(this.state.userId, customer)
             .then(this.findUser);
@@ -110,10 +117,7 @@ class CustomerProfile extends React.Component {
     }
 
     unfollowSeller() {
-        console.log("here")
-        console.log(this.state.userId)
-        console.log(this.state.followedSellerId)
-        this.userService.unfollowSeller(this.state.userId, this.state.followedSellerId)
+        this.userService.unfollowSeller(this.state.userId, this.state.followedSellerName)
             .then(() => {
                 this.findUser();
             })
@@ -360,7 +364,7 @@ class CustomerProfile extends React.Component {
             <br/>
 
             <div className="form-inline">
-                <h1>Following Seller:   {this.state.followedSeller}</h1>
+                <h1>Following Seller:   {this.state.followedSellerName}</h1>
                 {/*<button className="btn btn-danger"*/}
                         {/*onClick={() => this.unfollowSeller()}>Unfollow</button>*/}
             </div>

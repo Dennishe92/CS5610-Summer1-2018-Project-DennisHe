@@ -4,7 +4,7 @@ import UserService from "../services/UserService";
 import OrderService from "../services/OrderService"
 import ProductService from "../services/ProductService"
 
-
+import UserAdmin from "../components/UserAdmin"
 import OrderAdmin from "../components/OrderAdmin"
 import RecipeAdmin from "../components/RecipeAdmin"
 import ProductAdmin from "../components/ProductAdmin";
@@ -14,11 +14,13 @@ class Admin extends React.Component {
         super(props);
 
         this.state = {
+            users: [],
             orders: [],
             products: [],
             recipes: []
         }
 
+        this.setUsers = this.setUsers.bind(this);
         this.setOrders = this.setOrders.bind(this);
         this.setProducts = this.setProducts.bind(this);
         this.setRecipes = this.setRecipes.bind(this);
@@ -29,6 +31,7 @@ class Admin extends React.Component {
         this.renderProductList = this.renderProductList.bind(this);
         this.deleteOrder = this.deleteOrder.bind(this);
         this.deleteProduct = this.deleteProduct.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
 
         this.adminService = UserService.instance;
         this.orderService = OrderService.instance;
@@ -47,10 +50,15 @@ class Admin extends React.Component {
         this.setState({recipes: recipes})
     }
 
+    setUsers(users) {
+        this.setState({users: users});
+    }
+
     componentDidMount() {
         this.findAllOrders();
         this.findAllProducts();
         this.findAllRecipes();
+        this.findAllUsers();
     }
 
     findAllOrders() {
@@ -71,6 +79,14 @@ class Admin extends React.Component {
         this.adminService.findAllRecipes()
             .then((recipes) => {
                 this.setRecipes(recipes)
+            })
+    }
+
+    findAllUsers() {
+        // fixme
+        this.adminService.findAllUsers()
+            .then((users) => {
+                this.setUsers(users)
             })
     }
 
@@ -108,12 +124,37 @@ class Admin extends React.Component {
         return (products);
     }
 
+    renderUserList() {
+        let users = null;
+        if (this.state) {
+           users = this.state.users.map(
+               (user) => {return <UserAdmin key={user.id}
+                                               user={user}
+                                               deleteUser={this.deleteUser}/>}
+           )
+        }
+
+        return (users);
+    }
+
+    deleteUser(userId) {
+        //fixme
+        this.adminService.deleteUser(userId)
+            .then(() => {
+                this.findAllOrders();
+                this.findAllProducts();
+                this.findAllRecipes();
+                this.findAllUsers();
+            })
+    }
+
     deleteOrder(orderId) {
         this.orderService.deleteOrder(orderId)
             .then(() => {
                 this.findAllOrders();
                 this.findAllProducts();
                 this.findAllRecipes();
+                this.findAllUsers();
             });
     }
 
@@ -123,9 +164,9 @@ class Admin extends React.Component {
                 this.findAllOrders();
                 this.findAllProducts();
                 this.findAllRecipes();
+                this.findAllUsers();
             })
     }
-
 
 
     render() {
@@ -173,6 +214,22 @@ class Admin extends React.Component {
                     </thead>
                     <tbody>
                     {this.renderProductList()}
+                    </tbody>
+                </table>
+
+                <h1>User List</h1>
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th scope='col'>User Id</th>
+                        <th scope='col'>User Role</th>
+                        <th scope='col'>User Name</th>
+                        <th scope='col'>User Phone</th>
+                        <th scope='col'>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.renderUserList()}
                     </tbody>
                 </table>
             </div>
